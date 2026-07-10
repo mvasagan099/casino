@@ -1,0 +1,479 @@
+/* Keno Page */
+.keno-page {
+  flex: 1;
+  display: flex;
+  height: 100%;
+  background-color: #0f212e;
+  overflow: hidden;
+}
+
+/* Left Panel */
+.keno-panel {
+  width: 300px;
+  flex-shrink: 0;
+  background-color: #1a2c38;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  border-right: 1px solid #2f4553;
+  overflow-y: auto;
+}
+
+/* Mode Tabs */
+.keno-mode-tabs {
+  display: flex;
+  background-color: #0f212e;
+  border-radius: 6px;
+  padding: 3px;
+  gap: 2px;
+}
+
+.keno-mode-tab {
+  flex: 1;
+  border: none;
+  background: transparent;
+  color: #b1bad3;
+  padding: 8px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.keno-mode-tab.active {
+  background-color: #2f4553;
+  color: white;
+}
+
+/* Fields */
+.keno-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.keno-field-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #b1bad3;
+  font-weight: 600;
+}
+
+.keno-input-row {
+  display: flex;
+  gap: 6px;
+}
+
+.keno-input-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  background-color: #0f212e;
+  border-radius: 4px;
+  padding: 0 10px;
+  border: 1px solid #2f4553;
+  transition: border-color 0.2s;
+}
+
+.keno-input-wrap:focus-within {
+  border-color: #557086;
+}
+
+.keno-cur {
+  color: #b1bad3;
+  font-size: 14px;
+  margin-right: 8px;
+}
+
+.keno-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 0;
+  width: 100%;
+}
+
+.keno-input::placeholder { color: #4a6375; }
+.keno-input:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.keno-sm-btn {
+  background-color: #2f4553;
+  border: none;
+  color: #b1bad3;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 0 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.keno-sm-btn:hover:not(:disabled) { background-color: #3b5060; color: white; }
+.keno-sm-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* Selects */
+.keno-select {
+  background-color: #0f212e;
+  border: 1px solid #2f4553;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px;
+  border-radius: 4px;
+  outline: none;
+  cursor: pointer;
+}
+.keno-select:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* Secondary controls (Random pick, clear) */
+.keno-controls-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.keno-sec-btn {
+  background-color: #2f4553;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.keno-sec-btn:hover:not(:disabled) { background-color: #3b5060; }
+.keno-sec-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* Bet Button */
+.keno-bet-btn {
+  width: 100%;
+  background-color: #00e701;
+  color: #000;
+  border: none;
+  border-radius: 4px;
+  padding: 14px;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.keno-bet-btn:hover:not(:disabled) { background-color: #00cc00; }
+.keno-bet-btn.dropping { background-color: #1f6b2f; cursor: not-allowed; color: rgba(255,255,255,0.7); }
+.keno-bet-btn.disabled { opacity: 0.7; cursor: not-allowed; }
+
+/* Results */
+.keno-result {
+  margin-top: 10px;
+  padding: 12px;
+  border-radius: 6px;
+  text-align: center;
+  animation: resultPop 0.3s ease;
+}
+
+@keyframes resultPop {
+  from { transform: scale(0.9); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+.keno-result.won {
+  background-color: rgba(0, 231, 1, 0.1);
+  border: 1px solid rgba(0, 231, 1, 0.3);
+}
+
+.keno-result.lost {
+  background-color: rgba(255, 85, 85, 0.1);
+  border: 1px solid rgba(255, 85, 85, 0.3);
+}
+
+.keno-result-mult {
+  font-size: 24px;
+  font-weight: 800;
+  color: white;
+}
+.keno-result.won .keno-result-mult { color: #00e701; }
+.keno-result.lost .keno-result-mult { color: #ff5555; }
+
+.keno-result-sub {
+  font-size: 13px;
+  font-weight: 700;
+  color: #b1bad3;
+  margin-top: 4px;
+}
+
+/* Game Area */
+.keno-game-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #0f212e;
+  overflow: hidden;
+  position: relative;
+}
+
+.keno-board-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  min-height: 0;
+  width: 100%;
+}
+
+.keno-board {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 8px;
+  width: 100%;
+  max-width: 650px;
+}
+
+.keno-num {
+  aspect-ratio: 1;
+  background-color: #2f4553;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  font-size: 20px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.keno-num:hover {
+  background-color: #3b5060;
+  transform: translateY(-2px);
+}
+
+.keno-num.selected {
+  background-color: #6c5dd3; /* purple for selected */
+  box-shadow: 0 0 10px rgba(108, 93, 211, 0.5);
+}
+
+.keno-num.drawn {
+  background-color: #00e701; /* green for drawn but not matched */
+  color: #0f212e;
+}
+
+.keno-num.match {
+  background-color: #ffb800; /* gold for matched */
+  color: #0f212e;
+  box-shadow: 0 0 15px rgba(255, 184, 0, 0.6);
+  transform: scale(1.05);
+  z-index: 2;
+}
+
+/* Payouts Bar at Bottom of Board */
+.keno-payouts {
+  margin-top: 16px;
+  width: 100%;
+  max-width: 650px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 60px;
+}
+
+.keno-payout-text {
+  color: #b1bad3;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.keno-payout-track {
+  display: flex;
+  gap: 4px;
+  width: 100%;
+}
+
+.keno-payout-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.keno-payout-mult-box {
+  background-color: #2f4553;
+  padding: 8px 2px;
+  border-radius: 4px;
+  text-align: center;
+  color: white;
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.keno-payout-hits-box {
+  background-color: #213743;
+  padding: 8px 2px;
+  border-radius: 4px;
+  text-align: center;
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.keno-hit-icon {
+  width: 10px;
+  height: 10px;
+  background-color: #b1bad3;
+  border-radius: 2px;
+}
+
+.keno-payout-col.active .keno-payout-hits-box {
+  background-color: #00e701;
+  color: #000;
+}
+
+.keno-payout-col.active .keno-hit-icon {
+  background-color: #000;
+}
+
+/* Hover Tooltip */
+.keno-hover-tooltip {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  width: 100%;
+  margin-bottom: 12px;
+  background-color: #213743;
+  border-radius: 8px;
+  padding: 12px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+  z-index: 10;
+  animation: tooltipFade 0.2s ease;
+  box-sizing: border-box;
+}
+
+@keyframes tooltipFade {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.keno-tooltip-arrow {
+  position: absolute;
+  bottom: -8px;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid #213743;
+  transition: left 0.15s ease;
+}
+
+.keno-tooltip-content {
+  display: flex;
+  width: 100%;
+  gap: 12px;
+}
+
+.keno-tooltip-field {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.keno-tooltip-field.profit {
+  flex: 1.5;
+}
+
+.keno-tooltip-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #b1bad3;
+  font-weight: 600;
+}
+
+.keno-tooltip-input {
+  background-color: #0f212e;
+  border: 1px solid #2f4553;
+  border-radius: 4px;
+  padding: 10px;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Bottom Bar */
+.keno-bottom-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  background-color: rgba(0,0,0,0.3);
+  border-top: 1px solid rgba(255,255,255,0.05);
+  width: 100%;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+.keno-bl, .keno-br {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.keno-icon-btn {
+  background: transparent;
+  border: none;
+  color: rgba(255,255,255,0.4);
+  font-size: 16px;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 4px;
+  transition: 0.2s;
+}
+
+.keno-icon-btn:hover { color: white; background-color: rgba(255,255,255,0.1); }
+
+.keno-brand {
+  font-size: 18px;
+  font-weight: 800;
+  color: rgba(255,255,255,0.4);
+  letter-spacing: -0.5px;
+  font-style: italic;
+}
+
+.keno-fair-btn {
+  background-color: rgba(255,255,255,0.08);
+  border: none;
+  color: rgba(255,255,255,0.6);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.keno-fair-btn:hover { background-color: rgba(255,255,255,0.15); color: white; }

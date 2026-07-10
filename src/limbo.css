@@ -1,0 +1,356 @@
+/* Limbo Page */
+.limbo-page {
+  flex: 1;
+  display: flex;
+  height: 100%;
+  background-color: #0f212e;
+  overflow: hidden;
+}
+
+/* Left Panel */
+.limbo-panel {
+  width: 300px;
+  flex-shrink: 0;
+  background-color: #1a2c38;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  border-right: 1px solid #2f4553;
+  overflow-y: auto;
+}
+
+/* Mode Tabs */
+.limbo-mode-tabs {
+  display: flex;
+  background-color: #0f212e;
+  border-radius: 6px;
+  padding: 3px;
+  gap: 2px;
+}
+
+.limbo-mode-tab {
+  flex: 1;
+  border: none;
+  background: transparent;
+  color: #b1bad3;
+  padding: 8px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.limbo-mode-tab.active {
+  background-color: #2f4553;
+  color: white;
+}
+
+/* Fields */
+.limbo-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.limbo-field-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #b1bad3;
+  font-weight: 600;
+}
+
+.limbo-input-row {
+  display: flex;
+  gap: 6px;
+}
+
+.limbo-input-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  background-color: #0f212e;
+  border-radius: 4px;
+  padding: 0 10px;
+  border: 1px solid #2f4553;
+  transition: border-color 0.2s;
+}
+
+.limbo-input-wrap:focus-within {
+  border-color: #557086;
+}
+
+.limbo-cur {
+  color: #b1bad3;
+  font-size: 14px;
+  margin-right: 8px;
+}
+
+.limbo-cur-right {
+  color: #4a86ff;
+  font-size: 14px;
+  font-weight: 700;
+  margin-left: 8px;
+  background-color: #1a3a5c;
+  padding: 4px 8px;
+  border-radius: 3px;
+}
+
+.limbo-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 0;
+  width: 100%;
+}
+
+.limbo-input::placeholder { color: #4a6375; }
+.limbo-input:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.limbo-sm-btn {
+  background-color: #2f4553;
+  border: none;
+  color: #b1bad3;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 0 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.limbo-sm-btn:hover:not(:disabled) { background-color: #3b5060; color: white; }
+.limbo-sm-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* Bet Button */
+.limbo-bet-btn {
+  width: 100%;
+  background-color: #4a86ff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 14px;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.limbo-bet-btn:hover:not(:disabled) { background-color: #3a76ef; }
+.limbo-bet-btn.rolling { background-color: #2f5599; cursor: not-allowed; }
+.limbo-bet-btn:disabled { opacity: 0.7; cursor: not-allowed; }
+
+/* Game Area */
+.limbo-game-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #0f212e;
+  overflow: hidden;
+  position: relative;
+}
+
+/* History Badges */
+.limbo-history {
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 6px;
+  padding: 14px 20px;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  min-height: 52px;
+}
+
+.limbo-hist-badge {
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+  animation: badgePop 0.25s ease;
+}
+
+@keyframes badgePop {
+  from { transform: scale(0.6); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+.limbo-hist-badge.won {
+  background-color: #0f5a2c;
+  color: #00e701;
+}
+
+.limbo-hist-badge.lost {
+  background-color: #1a2c38;
+  color: #b1bad3;
+}
+
+/* Main Display */
+.limbo-display-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.limbo-multiplier {
+  font-size: 88px;
+  font-weight: 900;
+  letter-spacing: -2px;
+  line-height: 1;
+  color: white;
+  transition: color 0.2s;
+  font-variant-numeric: tabular-nums;
+  user-select: none;
+}
+
+.limbo-multiplier.animating {
+  animation: multPulse 0.1s ease infinite alternate;
+}
+
+@keyframes multPulse {
+  from { opacity: 0.85; }
+  to   { opacity: 1; }
+}
+
+.limbo-multiplier.won {
+  text-shadow: 0 0 40px rgba(0, 231, 1, 0.4);
+}
+
+.limbo-multiplier.lost {
+  text-shadow: 0 0 40px rgba(255, 85, 85, 0.3);
+}
+
+.limbo-result-label {
+  font-size: 18px;
+  font-weight: 700;
+  animation: resultFade 0.3s ease;
+}
+
+@keyframes resultFade {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.limbo-result-label.won { color: #00e701; }
+.limbo-result-label.lost { color: #ff5555; }
+
+/* Bottom Stats Row */
+.limbo-stats-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  background-color: #1a2c38;
+  padding: 20px;
+  margin: 0;
+}
+
+.limbo-stat-box {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.limbo-stat-label {
+  font-size: 13px;
+  color: #b1bad3;
+  font-weight: 600;
+  display: block;
+}
+
+.limbo-stat-input-wrap {
+  display: flex;
+  align-items: center;
+  background-color: #0f212e;
+  border: 1px solid #2f4553;
+  border-radius: 4px;
+  padding: 0 10px;
+  transition: border-color 0.2s;
+}
+
+.limbo-stat-input-wrap:focus-within { border-color: #4a86ff; }
+
+.limbo-stat-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: white;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 10px 0;
+  width: 100%;
+}
+
+.limbo-stat-input:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.limbo-clear-btn {
+  background: transparent;
+  border: none;
+  color: #b1bad3;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 0 4px;
+  transition: 0.2s;
+}
+
+.limbo-clear-btn:hover { color: white; }
+
+/* Bottom bar */
+.limbo-bottom-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  background-color: rgba(0,0,0,0.3);
+  border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+.limbo-bottom-left,
+.limbo-bottom-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.limbo-icon-btn {
+  background: transparent;
+  border: none;
+  color: rgba(255,255,255,0.4);
+  font-size: 16px;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 4px;
+  transition: 0.2s;
+}
+
+.limbo-icon-btn:hover { color: white; background-color: rgba(255,255,255,0.1); }
+
+.limbo-brand {
+  font-size: 18px;
+  font-weight: 800;
+  color: rgba(255,255,255,0.4);
+  letter-spacing: -0.5px;
+  font-style: italic;
+}
+
+.limbo-fairness-btn {
+  background-color: rgba(255,255,255,0.08);
+  border: none;
+  color: rgba(255,255,255,0.6);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.limbo-fairness-btn:hover { background-color: rgba(255,255,255,0.15); color: white; }

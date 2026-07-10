@@ -1,0 +1,22 @@
+.sort-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 8px;
+  background-color: var(--bg-dark);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  width: 150px;
+  z-index: 100;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  overflow: hidden;
+}
+.sort-option {
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: 0.2s;
+  color: var(--text-main);
+}
+.sort-option:hover {
+  background-color: var(--bg-darker);
+}

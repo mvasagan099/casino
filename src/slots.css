@@ -1,0 +1,169 @@
+.slots-page {
+  padding: 24px;
+  background-color: var(--bg-darker);
+}
+
+.slots-page-inner {
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.slots-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.slots-game-card {
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.slots-game-card:hover {
+  transform: translateY(-4px);
+}
+
+.slots-game-img-wrapper {
+  border-radius: 8px;
+  overflow: hidden;
+  height: 220px;
+  background-color: var(--bg-dark);
+}
+
+.slots-game-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.slots-playing-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 8px;
+  font-weight: 600;
+}
+
+.slots-playing-dot {
+  width: 6px;
+  height: 6px;
+  background-color: var(--accent-green);
+  border-radius: 50%;
+}
+
+.slots-load-more {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 16px;
+  margin-bottom: 48px;
+}
+.slots-load-more:hover {
+  color: var(--text-main);
+}
+
+/* Tabs and Header */
+.my-bets-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.my-bets-tabs {
+  display: flex;
+  gap: 8px;
+}
+
+.my-bets-tab {
+  background: var(--bg-dark);
+  color: var(--text-muted);
+  border: none;
+  padding: 10px 16px;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.my-bets-tab:hover {
+  background: var(--bg-light);
+  color: var(--text-main);
+}
+
+.my-bets-tab.active {
+  background: var(--bg-light);
+  color: var(--text-main);
+}
+
+.my-bets-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.my-bets-control-btn {
+  background: var(--bg-dark);
+  color: var(--text-muted);
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.my-bets-control-btn:hover {
+  background: var(--bg-light);
+  color: var(--text-main);
+}
+
+/* Table */
+.table-container {
+  background-color: var(--bg-dark);
+  border-radius: 4px;
+  overflow-x: auto;
+}
+
+.bets-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.bets-table th {
+  color: var(--text-muted);
+  font-weight: 600;
+  font-size: 12px;
+  padding: 16px 24px;
+  background-color: var(--bg-darker);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.bets-table td {
+  padding: 16px 24px;
+  font-size: 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+}
+
+.bets-table tr:hover td {
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+.bets-table tr:last-child td {
+  border-bottom: none;
+}

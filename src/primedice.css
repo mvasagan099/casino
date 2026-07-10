@@ -1,0 +1,141 @@
+/* Prime Dice Page */
+.pd-page {
+  flex: 1; display: flex; height: 100%; background-color: #0f212e; overflow: hidden;
+}
+
+/* Left Panel */
+.pd-panel {
+  width: 300px; flex-shrink: 0; background-color: #1a2c38; padding: 16px;
+  display: flex; flex-direction: column; gap: 14px; border-right: 1px solid #2f4553; overflow-y: auto;
+}
+
+.pd-mode-tabs {
+  display: flex; background-color: #0f212e; border-radius: 6px; padding: 3px; gap: 2px;
+}
+.pd-mode-tab {
+  flex: 1; border: none; background: transparent; color: #b1bad3; padding: 8px; border-radius: 4px; font-size: 14px; font-weight: 600; cursor: pointer;
+}
+.pd-mode-tab.active { background-color: #2f4553; color: white; }
+
+.pd-field { display: flex; flex-direction: column; gap: 6px; }
+.pd-field-label { display: flex; justify-content: space-between; font-size: 13px; color: #b1bad3; font-weight: 600; }
+.pd-input-row { display: flex; gap: 6px; }
+.pd-input-wrap {
+  flex: 1; display: flex; align-items: center; background-color: #0f212e; border-radius: 4px; padding: 0 10px; border: 1px solid #2f4553;
+}
+.pd-input-wrap.disabled { opacity: 0.7; }
+.pd-cur { color: #b1bad3; font-size: 14px; margin-right: 8px; }
+.pd-input {
+  flex: 1; background: transparent; border: none; outline: none; color: white; font-size: 14px; font-weight: 600; padding: 10px 0; width: 100%; min-width: 0;
+}
+.pd-input:disabled { opacity: 0.5; }
+
+.pd-sm-btn {
+  background-color: #2f4553; border: none; color: #b1bad3; font-size: 13px; font-weight: 700; padding: 0 12px; border-radius: 4px; cursor: pointer;
+}
+.pd-sm-btn:hover:not(:disabled) { background-color: #3b5060; color: white; }
+.pd-sm-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.pd-bet-btn {
+  width: 100%; background-color: #00e701; color: #000; border: none; border-radius: 4px; padding: 14px; font-size: 15px; font-weight: 800; cursor: pointer; transition: 0.2s;
+}
+.pd-bet-btn:hover:not(:disabled) { background-color: #00cc00; }
+.pd-bet-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* Game Area */
+.pd-game-area { flex: 1; display: flex; flex-direction: column; background-color: #1a2c38; position: relative; overflow: hidden; }
+
+/* History Track */
+.pd-history-track {
+  display: flex; gap: 8px; justify-content: flex-end; padding: 12px 20px; background-color: rgba(0,0,0,0.1); overflow-x: auto;
+}
+.pd-history-pill {
+  font-size: 13px; font-weight: 800; padding: 6px 16px; border-radius: 14px; white-space: nowrap;
+}
+.pd-history-pill.win { background-color: #00e701; color: #000; box-shadow: 0 0 10px rgba(0,231,1,0.2); }
+.pd-history-pill.lose { background-color: #2f4553; color: white; }
+
+/* Board Wrapper */
+.pd-board-wrapper {
+  flex: 1; display: flex; align-items: center; justify-content: center; padding: 40px;
+}
+
+.pd-machine {
+  width: 100%; max-width: 800px; display: flex; align-items: center; justify-content: center; position: relative;
+}
+
+/* Custom Slider */
+.pd-slider-container {
+  width: 100%; padding: 40px 20px; position: relative; user-select: none;
+}
+
+.pd-ticks {
+  display: flex; justify-content: space-between; margin-bottom: 24px; color: white; font-weight: 800; font-size: 14px;
+}
+
+.pd-track {
+  width: 100%; height: 16px; border-radius: 8px; position: relative; box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
+}
+
+.pd-thumb {
+  position: absolute; top: 50%; transform: translate(-50%, -50%);
+  width: 36px; height: 36px; background-color: #213743; border: 4px solid #0070FF;
+  border-radius: 8px; display: flex; align-items: center; justify-content: center;
+  cursor: grab; z-index: 10; transition: box-shadow 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+.pd-thumb:active { cursor: grabbing; box-shadow: 0 0 0 4px rgba(0, 112, 255, 0.2); }
+.pd-thumb-icon { color: white; font-size: 12px; font-weight: 900; }
+
+/* Roll Result Indicator */
+.pd-roll-result {
+  position: absolute; top: -50px; transform: translateX(-50%); z-index: 5;
+  display: flex; flex-direction: column; align-items: center;
+  animation: dropIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+@keyframes dropIn {
+  0% { transform: translateX(-50%) translateY(-20px); opacity: 0; }
+  100% { transform: translateX(-50%) translateY(0); opacity: 1; }
+}
+
+.pd-roll-num {
+  padding: 6px 12px; border-radius: 4px; font-size: 16px; font-weight: 900; box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+.pd-roll-arrow {
+  width: 0; height: 0; border-left: 6px solid transparent; border-right: 6px solid transparent;
+}
+
+.pd-roll-result.win .pd-roll-num { background-color: #00e701; color: #000; }
+.pd-roll-result.win .pd-roll-arrow { border-top: 6px solid #00e701; }
+
+.pd-roll-result.lose .pd-roll-num { background-color: #ff5555; color: white; }
+.pd-roll-result.lose .pd-roll-arrow { border-top: 6px solid #ff5555; }
+
+
+/* Bottom Settings Bar */
+.pd-settings-bar {
+  display: flex; gap: 16px; padding: 20px; background-color: #16242e; border-top: 2px solid #213743;
+}
+.pd-setting-group {
+  flex: 1; display: flex; flex-direction: column; gap: 8px;
+}
+.pd-set-label {
+  font-size: 13px; color: #b1bad3; font-weight: 600; text-align: center;
+}
+.pd-set-input-row {
+  display: flex; align-items: center; gap: 8px;
+}
+
+/* Bottom Bar */
+.pd-bottom-bar {
+  display: flex; align-items: center; justify-content: space-between; padding: 10px 20px; background-color: rgba(0,0,0,0.3); border-top: 1px solid rgba(255,255,255,0.05); flex-shrink: 0;
+}
+.pd-bl, .pd-br { display: flex; align-items: center; gap: 8px; }
+.pd-icon-btn {
+  background: transparent; border: none; color: rgba(255,255,255,0.4); font-size: 16px; cursor: pointer; padding: 4px 6px; border-radius: 4px;
+}
+.pd-icon-btn:hover { color: white; background-color: rgba(255,255,255,0.1); }
+.pd-brand { font-size: 18px; font-weight: 800; color: rgba(255,255,255,0.4); font-style: italic; }
+.pd-fair-btn {
+  background-color: rgba(255,255,255,0.08); border: none; color: rgba(255,255,255,0.6); font-size: 13px; font-weight: 600; padding: 6px 12px; border-radius: 4px; cursor: pointer;
+}
+.pd-fair-btn:hover { background-color: rgba(255,255,255,0.15); color: white; }

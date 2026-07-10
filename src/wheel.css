@@ -1,0 +1,346 @@
+/* Wheel Page */
+.wheel-page {
+  flex: 1;
+  display: flex;
+  height: 100%;
+  background-color: #0f212e;
+  overflow: hidden;
+}
+
+/* Left Panel */
+.wheel-panel {
+  width: 300px;
+  flex-shrink: 0;
+  background-color: #1a2c38;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  border-right: 1px solid #2f4553;
+  overflow-y: auto;
+}
+
+.wheel-mode-tabs {
+  display: flex;
+  background-color: #0f212e;
+  border-radius: 6px;
+  padding: 3px;
+  gap: 2px;
+}
+
+.wheel-mode-tab {
+  flex: 1;
+  border: none;
+  background: transparent;
+  color: #b1bad3;
+  padding: 8px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.wheel-mode-tab.active {
+  background-color: #2f4553;
+  color: white;
+}
+
+/* Fields */
+.wheel-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.wheel-field-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #b1bad3;
+  font-weight: 600;
+}
+
+.wheel-input-row {
+  display: flex;
+  gap: 6px;
+}
+
+.wheel-input-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  background-color: #0f212e;
+  border-radius: 4px;
+  padding: 0 10px;
+  border: 1px solid #2f4553;
+}
+
+.wheel-cur {
+  color: #b1bad3;
+  font-size: 14px;
+  margin-right: 8px;
+}
+
+.wheel-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 0;
+  width: 100%;
+}
+.wheel-input:disabled { opacity: 0.5; }
+
+.wheel-sm-btn {
+  background-color: #2f4553;
+  border: none;
+  color: #b1bad3;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 0 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.wheel-sm-btn:hover:not(:disabled) { background-color: #3b5060; color: white; }
+.wheel-sm-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* Selects */
+.wheel-select {
+  background-color: #0f212e;
+  border: 1px solid #2f4553;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px;
+  border-radius: 4px;
+  outline: none;
+  cursor: pointer;
+}
+.wheel-select:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* Bet Button */
+.wheel-bet-btn {
+  width: 100%;
+  background-color: #1475e1;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 14px;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.wheel-bet-btn:hover:not(:disabled) { background-color: #1b66b8; }
+.wheel-bet-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* Game Area */
+.wheel-game-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #0f212e;
+  position: relative;
+}
+
+.wheel-board-wrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Wheel Container */
+.wheel-container {
+  position: relative;
+  width: 440px;
+  height: 440px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wheel-svg-wrapper {
+  width: 400px;
+  height: 400px;
+  /* rotate -90 so 0deg is top instead of right */
+  /* Wait, if we use CSS transform, it's combined. 
+     We'll just set it in inline styles with the dynamic rotation.
+     But we can just rely on the dynamic inline rotation and account for the -90 offset in JS. 
+     In JS we calculated `targetCenterAngle` from standard math (0 at right). 
+     Actually SVG circles start at 3 o'clock. 
+     Wait, the inline style overrides transform. We must ensure JS handles the -90 offset if needed.
+     Wait, in JS: newBaseRotation = spins * 360 + (360 - targetCenterAngle);
+     Wait, wait. If 0 is 3 o'clock, to put 0 at top we rotate -90.
+     I should add a nested wrapper so the base rotation is handled.
+  */
+}
+
+
+/* Base adjustment wrapper to put 0 at the top */
+.wheel-svg {
+  transform: rotate(-90deg);
+  border-radius: 50%;
+  background: #1a2c38;
+  box-shadow: 0 0 0 10px #1a2c38, 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.wheel-pin {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 30px;
+  background-color: #ff5555;
+  clip-path: polygon(50% 100%, 0 0, 100% 0);
+  z-index: 10;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
+
+.wheel-center-hub {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 120px;
+  height: 120px;
+  background-color: #0f212e;
+  border-radius: 12px;
+  border: 4px solid #1a2c38;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  transition: 0.3s;
+}
+
+.wheel-center-hub.win {
+  border-color: #00e701;
+  background-color: rgba(0,231,1,0.05);
+  box-shadow: 0 0 20px rgba(0,231,1,0.2);
+}
+
+.wheel-center-hub.loss {
+  border-color: #2f4553;
+  background-color: rgba(255,255,255,0.02);
+}
+
+.hub-idle {
+  color: #b1bad3;
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.hub-spinning {
+  color: #b1bad3;
+  font-weight: 600;
+  font-size: 14px;
+  animation: pulse 1s infinite;
+}
+
+.hub-result {
+  text-align: center;
+  animation: popIn 0.3s;
+}
+
+.hub-mult {
+  font-size: 24px;
+  font-weight: 800;
+  color: white;
+}
+.wheel-center-hub.win .hub-mult {
+  color: #00e701;
+}
+
+.hub-profit {
+  font-size: 12px;
+  color: #b1bad3;
+  margin-top: 4px;
+}
+.wheel-center-hub.win .hub-profit {
+  color: #00e701;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+@keyframes popIn {
+  from { transform: scale(0.5); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+
+/* Legend */
+.wheel-legend {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px;
+  background: #1a2c38;
+  flex-wrap: wrap;
+}
+
+.legend-item {
+  background: #0f212e;
+  color: #b1bad3;
+  font-weight: 700;
+  font-size: 13px;
+  padding: 8px 16px;
+  border-radius: 4px;
+  border-bottom: 3px solid; /* color determined inline */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Bottom Bar */
+.wheel-bottom-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  background-color: rgba(0,0,0,0.3);
+  border-top: 1px solid rgba(255,255,255,0.05);
+  flex-shrink: 0;
+}
+.wheel-bl, .wheel-br {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.wheel-icon-btn {
+  background: transparent;
+  border: none;
+  color: rgba(255,255,255,0.4);
+  font-size: 16px;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 4px;
+}
+.wheel-icon-btn:hover { color: white; background-color: rgba(255,255,255,0.1); }
+.wheel-brand {
+  font-size: 18px;
+  font-weight: 800;
+  color: rgba(255,255,255,0.4);
+  font-style: italic;
+}
+.wheel-fair-btn {
+  background-color: rgba(255,255,255,0.08);
+  border: none;
+  color: rgba(255,255,255,0.6);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.wheel-fair-btn:hover { background-color: rgba(255,255,255,0.15); color: white; }

@@ -1,0 +1,261 @@
+/* Plinko Page */
+.plinko-page {
+  flex: 1;
+  display: flex;
+  height: 100%;
+  background-color: #0f212e;
+  overflow: hidden;
+}
+
+/* Left Panel */
+.plinko-panel {
+  width: 300px;
+  flex-shrink: 0;
+  background-color: #1a2c38;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  border-right: 1px solid #2f4553;
+  overflow-y: auto;
+}
+
+/* Mode Tabs */
+.plinko-mode-tabs {
+  display: flex;
+  background-color: #0f212e;
+  border-radius: 6px;
+  padding: 3px;
+  gap: 2px;
+}
+
+.plinko-mode-tab {
+  flex: 1;
+  border: none;
+  background: transparent;
+  color: #b1bad3;
+  padding: 8px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.plinko-mode-tab.active {
+  background-color: #2f4553;
+  color: white;
+}
+
+/* Fields */
+.plinko-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.plinko-field-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #b1bad3;
+  font-weight: 600;
+}
+
+.plinko-input-row {
+  display: flex;
+  gap: 6px;
+}
+
+.plinko-input-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  background-color: #0f212e;
+  border-radius: 4px;
+  padding: 0 10px;
+  border: 1px solid #2f4553;
+  transition: border-color 0.2s;
+}
+
+.plinko-input-wrap:focus-within {
+  border-color: #557086;
+}
+
+.plinko-cur {
+  color: #b1bad3;
+  font-size: 14px;
+  margin-right: 8px;
+}
+
+.plinko-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 0;
+  width: 100%;
+}
+
+.plinko-input::placeholder { color: #4a6375; }
+.plinko-input:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.plinko-sm-btn {
+  background-color: #2f4553;
+  border: none;
+  color: #b1bad3;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 0 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.plinko-sm-btn:hover:not(:disabled) { background-color: #3b5060; color: white; }
+.plinko-sm-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* Selects */
+.plinko-select {
+  background-color: #0f212e;
+  border: 1px solid #2f4553;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px;
+  border-radius: 4px;
+  outline: none;
+  cursor: pointer;
+}
+.plinko-select:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* Bet Button */
+.plinko-bet-btn {
+  width: 100%;
+  background-color: #00e701;
+  color: #000;
+  border: none;
+  border-radius: 4px;
+  padding: 14px;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.plinko-bet-btn:hover:not(:disabled) { background-color: #00cc00; }
+.plinko-bet-btn.dropping { background-color: #1f6b2f; cursor: not-allowed; color: rgba(255,255,255,0.7); }
+.plinko-bet-btn:disabled { opacity: 0.7; cursor: not-allowed; }
+
+/* Results */
+.plinko-result {
+  margin-top: 10px;
+  padding: 12px;
+  border-radius: 6px;
+  text-align: center;
+  animation: resultPop 0.3s ease;
+}
+
+@keyframes resultPop {
+  from { transform: scale(0.9); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+.plinko-result.won {
+  background-color: rgba(0, 231, 1, 0.1);
+  border: 1px solid rgba(0, 231, 1, 0.3);
+}
+
+.plinko-result.lost {
+  background-color: rgba(255, 85, 85, 0.1);
+  border: 1px solid rgba(255, 85, 85, 0.3);
+}
+
+.plinko-result-mult {
+  font-size: 24px;
+  font-weight: 800;
+  color: white;
+}
+.plinko-result.won .plinko-result-mult { color: #00e701; }
+.plinko-result.lost .plinko-result-mult { color: #ff5555; }
+
+.plinko-result-sub {
+  font-size: 13px;
+  font-weight: 700;
+  color: #b1bad3;
+  margin-top: 4px;
+}
+
+/* Game Area */
+.plinko-game-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #0f212e;
+  overflow: hidden;
+  align-items: center;
+  justify-content: center;
+}
+
+.plinko-canvas {
+  margin: auto;
+  max-width: 100%;
+  max-height: calc(100% - 44px);
+  display: block;
+}
+
+/* Bottom Bar */
+.plinko-bottom-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  background-color: rgba(0,0,0,0.3);
+  border-top: 1px solid rgba(255,255,255,0.05);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.plinko-bl, .plinko-br {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.plinko-icon-btn {
+  background: transparent;
+  border: none;
+  color: rgba(255,255,255,0.4);
+  font-size: 16px;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 4px;
+  transition: 0.2s;
+}
+
+.plinko-icon-btn:hover { color: white; background-color: rgba(255,255,255,0.1); }
+
+.plinko-brand {
+  font-size: 18px;
+  font-weight: 800;
+  color: rgba(255,255,255,0.4);
+  letter-spacing: -0.5px;
+  font-style: italic;
+}
+
+.plinko-fair-btn {
+  background-color: rgba(255,255,255,0.08);
+  border: none;
+  color: rgba(255,255,255,0.6);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.plinko-fair-btn:hover { background-color: rgba(255,255,255,0.15); color: white; }

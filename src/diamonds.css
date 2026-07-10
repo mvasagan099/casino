@@ -1,0 +1,163 @@
+/* Diamonds Page */
+.dia-page {
+  flex: 1; display: flex; height: 100%; background-color: #0f212e; overflow: hidden;
+}
+
+/* Left Panel */
+.dia-panel {
+  width: 300px; flex-shrink: 0; background-color: #1a2c38; padding: 16px;
+  display: flex; flex-direction: column; gap: 14px; border-right: 1px solid #2f4553; overflow-y: auto;
+}
+
+.dia-mode-tabs {
+  display: flex; background-color: #0f212e; border-radius: 6px; padding: 3px; gap: 2px;
+}
+.dia-mode-tab {
+  flex: 1; border: none; background: transparent; color: #b1bad3; padding: 8px; border-radius: 4px; font-size: 14px; font-weight: 600; cursor: pointer;
+}
+.dia-mode-tab.active { background-color: #2f4553; color: white; }
+
+.dia-field { display: flex; flex-direction: column; gap: 6px; }
+.dia-field-label { display: flex; justify-content: space-between; font-size: 13px; color: #b1bad3; font-weight: 600; }
+.dia-input-row { display: flex; gap: 6px; }
+.dia-input-wrap {
+  flex: 1; display: flex; align-items: center; background-color: #0f212e; border-radius: 4px; padding: 0 10px; border: 1px solid #2f4553;
+}
+.dia-input-wrap.disabled { opacity: 0.7; }
+.dia-cur { color: #b1bad3; font-size: 14px; margin-right: 8px; }
+.dia-input {
+  flex: 1; background: transparent; border: none; outline: none; color: white; font-size: 14px; font-weight: 600; padding: 10px 0; width: 100%;
+}
+.dia-input:disabled { opacity: 0.5; }
+
+.dia-sm-btn {
+  background-color: #2f4553; border: none; color: #b1bad3; font-size: 13px; font-weight: 700; padding: 0 12px; border-radius: 4px; cursor: pointer;
+}
+.dia-sm-btn:hover:not(:disabled) { background-color: #3b5060; color: white; }
+.dia-sm-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.dia-bet-btn {
+  width: 100%; background-color: #00e701; color: #000; border: none; border-radius: 4px; padding: 14px; font-size: 15px; font-weight: 800; cursor: pointer; transition: 0.2s;
+}
+.dia-bet-btn:hover:not(:disabled) { background-color: #00cc00; }
+.dia-bet-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* Game Area */
+.dia-game-area { flex: 1; display: flex; flex-direction: column; background-color: #1a2c38; position: relative; }
+
+.dia-board-wrapper {
+  flex: 1; display: flex; flex-direction: column; padding: 30px; gap: 20px;
+}
+
+/* Top Section (Paytable & Profit/Chance) */
+.dia-top-section {
+  display: flex; gap: 20px; justify-content: center; align-items: stretch;
+}
+
+.dia-paytable {
+  flex: 1; max-width: 500px; display: flex; flex-direction: column; gap: 4px;
+}
+.dia-paytable-row {
+  display: flex; justify-content: space-between; align-items: center; background-color: rgba(0,0,0,0.2);
+  padding: 8px 16px; border-radius: 6px; font-size: 13px; font-weight: 700; color: #b1bad3;
+  transition: 0.2s; cursor: default;
+}
+.dia-paytable-row.active, .dia-paytable-row:hover {
+  background-color: #2f4553; color: white; box-shadow: inset 0 0 0 1px rgba(255,255,255,0.1);
+}
+.dia-paytable-row.active {
+  background-color: #3b5060; color: #00e701;
+}
+
+.dia-pay-icons { letter-spacing: 2px; }
+.dia-pay-mult { font-weight: 800; }
+
+.dia-info-box {
+  background-color: rgba(0,0,0,0.2); border-radius: 8px; padding: 20px;
+  display: flex; flex-direction: column; justify-content: center; gap: 16px; width: 250px;
+}
+.dia-info-group { display: flex; flex-direction: column; gap: 4px; }
+.info-label { font-size: 13px; color: #b1bad3; font-weight: 600; }
+.info-val-wrap {
+  background-color: #0f212e; border: 1px solid #2f4553; border-radius: 4px; padding: 10px; display: flex; justify-content: space-between; align-items: center;
+}
+.info-val { color: white; font-weight: 700; font-size: 14px; }
+
+/* Bottom Section (Diamonds) */
+.dia-bottom-section {
+  flex: 1; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 20px;
+}
+
+.dia-slots-container {
+  display: flex; gap: 16px;
+}
+
+.dia-slot {
+  width: 100px; height: 160px; position: relative; display: flex; flex-direction: column; justify-content: flex-end; align-items: center;
+}
+
+.dia-pedestal {
+  width: 100%; height: 30px; background-color: #213743; border-radius: 4px; position: relative;
+  box-shadow: inset 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.dia-gem {
+  position: absolute; bottom: 20px; width: 80px; height: 80px;
+  animation: dropIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+}
+
+@keyframes dropIn {
+  0% { transform: translateY(-50px) scale(0.5); opacity: 0; }
+  100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+/* CSS Drawn Diamond Shape */
+.dia-gem-top {
+  width: 0; height: 0;
+  border-left: 40px solid transparent; border-right: 40px solid transparent;
+  border-bottom: 30px solid rgba(255,255,255,0.8);
+}
+.dia-gem-bottom {
+  width: 0; height: 0;
+  border-left: 40px solid transparent; border-right: 40px solid transparent;
+  border-top: 50px solid rgba(255,255,255,0.6);
+}
+
+/* Colors */
+.color-purple .dia-gem-top { border-bottom-color: #9b59b6; }
+.color-purple .dia-gem-bottom { border-top-color: #8e44ad; }
+
+.color-blue .dia-gem-top { border-bottom-color: #3498db; }
+.color-blue .dia-gem-bottom { border-top-color: #2980b9; }
+
+.color-yellow .dia-gem-top { border-bottom-color: #f1c40f; }
+.color-yellow .dia-gem-bottom { border-top-color: #f39c12; }
+
+.color-red .dia-gem-top { border-bottom-color: #e74c3c; }
+.color-red .dia-gem-bottom { border-top-color: #c0392b; }
+
+.color-cyan .dia-gem-top { border-bottom-color: #00ffff; }
+.color-cyan .dia-gem-bottom { border-top-color: #00bfff; }
+
+.color-green .dia-gem-top { border-bottom-color: #2ecc71; }
+.color-green .dia-gem-bottom { border-top-color: #27ae60; }
+
+.color-orange .dia-gem-top { border-bottom-color: #ff9900; }
+.color-orange .dia-gem-bottom { border-top-color: #e68a00; }
+
+
+/* Bottom Bar */
+.dia-bottom-bar {
+  display: flex; align-items: center; justify-content: space-between; padding: 10px 20px; background-color: rgba(0,0,0,0.3); border-top: 1px solid rgba(255,255,255,0.05); flex-shrink: 0;
+}
+.dia-bl, .dia-br { display: flex; align-items: center; gap: 8px; }
+.dia-icon-btn {
+  background: transparent; border: none; color: rgba(255,255,255,0.4); font-size: 16px; cursor: pointer; padding: 4px 6px; border-radius: 4px;
+}
+.dia-icon-btn:hover { color: white; background-color: rgba(255,255,255,0.1); }
+.dia-brand { font-size: 18px; font-weight: 800; color: rgba(255,255,255,0.4); font-style: italic; }
+.dia-fair-btn {
+  background-color: rgba(255,255,255,0.08); border: none; color: rgba(255,255,255,0.6); font-size: 13px; font-weight: 600; padding: 6px 12px; border-radius: 4px; cursor: pointer;
+}
+.dia-fair-btn:hover { background-color: rgba(255,255,255,0.15); color: white; }

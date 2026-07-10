@@ -1,0 +1,366 @@
+/* Flip Page */
+.flip-page {
+  flex: 1;
+  display: flex;
+  height: 100%;
+  background-color: #0f212e;
+  overflow: hidden;
+}
+
+/* Left Panel */
+.flip-panel {
+  width: 320px;
+  flex-shrink: 0;
+  background-color: #1a2c38;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border-right: 1px solid #2f4553;
+  overflow-y: auto;
+}
+
+.flip-mode-tabs {
+  display: flex;
+  background-color: #0f212e;
+  border-radius: 6px;
+  padding: 3px;
+  gap: 2px;
+}
+.flip-mode-tab {
+  flex: 1;
+  border: none;
+  background: transparent;
+  color: #b1bad3;
+  padding: 8px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.flip-mode-tab.active { background-color: #2f4553; color: white; }
+
+.flip-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.flip-field-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #b1bad3;
+  font-weight: 600;
+}
+.flip-input-row {
+  display: flex;
+  gap: 6px;
+}
+.flip-input-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  background-color: #0f212e;
+  border-radius: 4px;
+  padding: 0 10px;
+  border: 1px solid #2f4553;
+}
+.flip-input-wrap.disabled { opacity: 0.7; }
+.flip-cur { color: #b1bad3; font-size: 14px; margin-right: 8px; }
+.flip-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 0;
+  width: 100%;
+}
+.flip-input:disabled { opacity: 0.5; }
+.flip-sm-btn {
+  background-color: #2f4553;
+  border: none;
+  color: #b1bad3;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 0 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.flip-sm-btn:hover:not(:disabled) { background-color: #3b5060; color: white; }
+.flip-sm-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* Side Selector */
+.flip-side-selector {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+.side-btn {
+  flex: 1;
+  background-color: #2f4553;
+  border: 2px solid transparent;
+  border-radius: 6px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  color: #b1bad3;
+  font-size: 14px;
+  font-weight: 700;
+  transition: 0.2s;
+}
+.side-btn:hover:not(:disabled) { background-color: #3b5060; color: white; }
+.side-btn.active { border-color: #1475e1; background-color: #1a2c38; color: white; }
+.side-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.mini-coin {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.mini-coin.heads { background-color: #ffb800; }
+.mini-coin.tails { background-color: #5b4bff; }
+.mini-inner-circle { width: 14px; height: 14px; background-color: #1a2c38; border-radius: 50%; }
+.mini-inner-diamond { width: 14px; height: 14px; background-color: #1a2c38; transform: rotate(45deg); }
+
+/* Random Pick Button */
+.flip-random-btn {
+  width: 100%;
+  background-color: #2f4553;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s;
+  margin-bottom: 4px;
+}
+.flip-random-btn:hover:not(:disabled) { background-color: #3b5060; }
+.flip-random-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* Bet Button */
+.flip-bet-btn {
+  width: 100%;
+  background-color: #00e701;
+  color: #000;
+  border: none;
+  border-radius: 4px;
+  padding: 14px;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.flip-bet-btn:hover:not(:disabled) { background-color: #00cc00; }
+.flip-bet-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.flip-bet-btn.blue { background-color: #1475e1; color: white; }
+.flip-bet-btn.blue:hover:not(:disabled) { filter: brightness(1.1); }
+.flip-bet-btn.stop { background-color: #ff5555; color: white; }
+
+/* Game Area */
+.flip-game-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  background-color: #0f212e;
+  padding: 40px;
+}
+
+.flip-overlay-result {
+  position: absolute;
+  top: 10%;
+  font-size: 24px;
+  font-weight: 800;
+  padding: 12px 24px;
+  border-radius: 8px;
+  animation: slide-down 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  z-index: 10;
+}
+.flip-overlay-result.won { color: #00e701; background: rgba(0, 231, 1, 0.1); }
+.flip-overlay-result.lost { color: #ff5555; background: rgba(255, 85, 85, 0.1); }
+
+@keyframes slide-down {
+  0% { transform: translateY(-20px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+/* 3D Coin & Auto Grid */
+.flip-board {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1000px;
+  width: 100%;
+}
+
+.flip-coin-wrapper {
+  position: relative;
+  perspective: 1000px;
+}
+.flip-coin-wrapper.large {
+  width: 250px;
+  height: 250px;
+}
+.flip-coin-wrapper.small {
+  width: 130px;
+  height: 130px;
+  background-color: #1a2c38;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+.flip-coin-wrapper.small:hover {
+  transform: scale(1.05);
+}
+.flip-coin-wrapper.small .flip-coin {
+  width: 90px;
+  height: 90px;
+}
+
+.coin-badge {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #2f4553;
+  color: white;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 800;
+  z-index: 10;
+}
+
+.auto-coin-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.flip-coin {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 1.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.coin-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  backface-visibility: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 0 20px rgba(0,0,0,0.3), 0 5px 10px rgba(0,0,0,0.4);
+}
+.flip-coin-wrapper.large .coin-face {
+  box-shadow: inset 0 0 40px rgba(0,0,0,0.3), 0 10px 20px rgba(0,0,0,0.4);
+}
+
+.coin-heads { background-color: #ffb800; }
+.coin-tails { background-color: #5b4bff; transform: rotateY(180deg); }
+
+.heads-inner {
+  width: 35%;
+  height: 35%;
+  background-color: #1a2c38;
+  border-radius: 50%;
+}
+.tails-inner {
+  width: 35%;
+  height: 35%;
+  background-color: #1a2c38;
+  transform: rotate(45deg);
+}
+
+/* Auto Stats Bar */
+.auto-stats-bar {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+  background-color: #1a2c38;
+  border-radius: 6px;
+  padding: 16px;
+  margin-top: auto;
+}
+.auto-stats-bar .flip-field {
+  flex: 1;
+}
+
+.flip-select {
+  background-color: #0f212e;
+  color: white;
+  border: 1px solid #2f4553;
+  border-radius: 4px;
+  padding: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  outline: none;
+  cursor: pointer;
+}
+
+/* History Track */
+.flip-history-track {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  background-color: #1a2c38;
+  border-radius: 6px;
+  padding: 12px 16px;
+  border: 1px solid #2f4553;
+}
+.history-label {
+  font-size: 12px;
+  color: #b1bad3;
+  font-weight: 600;
+}
+.history-items {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  height: 24px;
+}
+.history-empty {
+  font-size: 13px;
+  color: rgba(255,255,255,0.2);
+  font-weight: 600;
+}
+.hist-item {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+.hist-heads {
+  background-color: #ffb800;
+  border-radius: 50%;
+}
+.hist-tails {
+  background-color: #5b4bff;
+  transform: rotate(45deg);
+  margin: 0 2px; /* Diamond takes slightly more horizontal space due to rotation */
+}

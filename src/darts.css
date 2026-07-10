@@ -1,0 +1,152 @@
+/* Darts Page */
+.dart-page {
+  flex: 1; display: flex; height: 100%; background-color: #0f212e; overflow: hidden;
+}
+
+/* Left Panel */
+.dart-panel {
+  width: 300px; flex-shrink: 0; background-color: #1a2c38; padding: 16px;
+  display: flex; flex-direction: column; gap: 14px; border-right: 1px solid #2f4553; overflow-y: auto;
+}
+
+.dart-mode-tabs {
+  display: flex; background-color: #0f212e; border-radius: 6px; padding: 3px; gap: 2px;
+}
+.dart-mode-tab {
+  flex: 1; border: none; background: transparent; color: #b1bad3; padding: 8px; border-radius: 4px; font-size: 14px; font-weight: 600; cursor: pointer;
+}
+.dart-mode-tab.active { background-color: #2f4553; color: white; }
+
+.dart-field { display: flex; flex-direction: column; gap: 6px; }
+.dart-field-label { display: flex; justify-content: space-between; font-size: 13px; color: #b1bad3; font-weight: 600; }
+.dart-input-row { display: flex; gap: 6px; }
+.dart-input-wrap {
+  flex: 1; display: flex; align-items: center; background-color: #0f212e; border-radius: 4px; padding: 0 10px; border: 1px solid #2f4553;
+}
+.dart-input-wrap.disabled { opacity: 0.7; }
+.dart-cur { color: #b1bad3; font-size: 14px; margin-right: 8px; }
+.dart-input {
+  flex: 1; background: transparent; border: none; outline: none; color: white; font-size: 14px; font-weight: 600; padding: 10px 0; width: 100%;
+}
+.dart-input:disabled { opacity: 0.5; }
+.dart-select {
+  flex: 1; background: transparent; border: none; outline: none; color: white; font-size: 14px; font-weight: 600; padding: 10px 0; width: 100%; cursor: pointer;
+}
+.dart-select option { background-color: #0f212e; color: white; }
+
+.dart-sm-btn {
+  background-color: #2f4553; border: none; color: #b1bad3; font-size: 13px; font-weight: 700; padding: 0 12px; border-radius: 4px; cursor: pointer;
+}
+.dart-sm-btn:hover:not(:disabled) { background-color: #3b5060; color: white; }
+.dart-sm-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.dart-bet-btn {
+  width: 100%; background-color: #00e701; color: #000; border: none; border-radius: 4px; padding: 14px; font-size: 15px; font-weight: 800; cursor: pointer; transition: 0.2s;
+}
+.dart-bet-btn:hover:not(:disabled) { background-color: #00cc00; }
+.dart-bet-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+
+/* Game Area */
+.dart-game-area { flex: 1; display: flex; flex-direction: column; background-color: #1a2c38; position: relative; overflow: hidden; }
+
+/* Legend */
+.dart-legend {
+  display: flex; gap: 8px; justify-content: center; align-items: center; padding: 16px; margin-bottom: 20px;
+}
+.dart-legend-pill {
+  display: flex; align-items: center; gap: 6px; background-color: #2f4553; padding: 6px 12px; border-radius: 4px;
+  font-size: 14px; font-weight: 800; color: white; border-bottom: 3px solid;
+}
+.dart-legend-color { width: 10px; height: 10px; border-radius: 50%; }
+
+/* Board */
+.dart-board-wrapper {
+  flex: 1; display: flex; align-items: center; justify-content: center; position: relative;
+}
+
+.dart-machine { position: relative; display: flex; align-items: center; justify-content: center; }
+
+.dart-board-container {
+  width: 400px; height: 400px; border-radius: 50%; padding: 20px; background-color: #213743;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.5), inset 0 0 20px rgba(0,0,0,0.5);
+  display: flex; align-items: center; justify-content: center; position: relative;
+}
+
+/* Outer rotating ring */
+.dart-board {
+  width: 100%; height: 100%; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  animation: spinBoard 10s linear infinite; position: relative; overflow: hidden;
+}
+
+@keyframes spinBoard {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Inner dark circle to create the "ring" of colors */
+.dart-inner-ring {
+  width: 280px; height: 280px; background-color: #16242e; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  z-index: 2; box-shadow: 0 0 10px rgba(0,0,0,0.8); border: 2px solid #2f4553;
+}
+
+.dart-bullseye {
+  width: 40px; height: 40px; background-color: #00e701; border-radius: 50%;
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.5); border: 4px solid #1a2c38;
+}
+
+/* The dart projectile */
+.dart-projectile-wrapper {
+  position: absolute; width: 100%; height: 100%; z-index: 5; pointer-events: none;
+}
+
+.dart-projectile {
+  position: absolute; top: -50px; left: 50%; transform: translateX(-50%) translateY(-200px) rotate(180deg);
+  display: flex; flex-direction: column; align-items: center; opacity: 0;
+}
+
+.dart-projectile.stuck {
+  animation: dartStrike 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes dartStrike {
+  0% { transform: translateX(-50%) translateY(-200px) rotate(180deg) scale(2); opacity: 0; }
+  100% { transform: translateX(-50%) translateY(20px) rotate(180deg) scale(1); opacity: 1; }
+}
+
+.dart-tail {
+  width: 30px; height: 30px; background-color: white; clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+}
+.dart-body {
+  width: 8px; height: 40px; background-color: #99aab5; border-radius: 4px; margin-top: -5px;
+}
+.dart-tip {
+  width: 4px; height: 20px; background-color: #b1bad3; clip-path: polygon(50% 0%, 100% 100%, 0% 100%); margin-top: -2px;
+}
+
+/* Floating Result Text */
+.dart-result-float {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 10;
+  font-size: 80px; font-weight: 900; text-shadow: 0 4px 20px rgba(0,0,0,0.8);
+  animation: resultPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes resultPop {
+  0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
+  100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}
+
+/* Bottom Bar */
+.dart-bottom-bar {
+  display: flex; align-items: center; justify-content: space-between; padding: 10px 20px; background-color: rgba(0,0,0,0.3); border-top: 1px solid rgba(255,255,255,0.05); flex-shrink: 0;
+}
+.dart-bl, .dart-br { display: flex; align-items: center; gap: 8px; }
+.dart-icon-btn {
+  background: transparent; border: none; color: rgba(255,255,255,0.4); font-size: 16px; cursor: pointer; padding: 4px 6px; border-radius: 4px;
+}
+.dart-icon-btn:hover { color: white; background-color: rgba(255,255,255,0.1); }
+.dart-brand { font-size: 18px; font-weight: 800; color: rgba(255,255,255,0.4); font-style: italic; }
+.dart-fair-btn {
+  background-color: rgba(255,255,255,0.08); border: none; color: rgba(255,255,255,0.6); font-size: 13px; font-weight: 600; padding: 6px 12px; border-radius: 4px; cursor: pointer;
+}
+.dart-fair-btn:hover { background-color: rgba(255,255,255,0.15); color: white; }

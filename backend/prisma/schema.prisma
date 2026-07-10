@@ -1,0 +1,212 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  ADMIN
+  MODERATOR
+}
+
+enum TransactionType {
+  DEPOSIT
+  WITHDRAWAL
+  BET
+  WIN
+  BONUS
+  TRANSFER
+}
+
+enum TransactionStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  CANCELLED
+}
+
+enum BetStatus {
+  PENDING
+  WON
+  LOST
+  CANCELLED
+}
+
+model User {
+  id                   String    @id @default(cuid())
+  email                String    @unique
+  username             String    @unique
+  passwordHash         String?   @map("password_hash")
+  googleId             String?   @unique @map("google_id")
+  role                 Role      @default(USER)
+  isVerified           Boolean   @default(false) @map("is_verified")
+  avatarUrl            String?   @map("avatar_url")
+  emailVerifyToken     String?   @map("email_verify_token")
+  resetPasswordToken   String?   @map("reset_password_token")
+  resetPasswordExpires DateTime? @map("reset_password_expires")
+  createdAt            DateTime  @default(now()) @map("created_at")
+  updatedAt            DateTime  @updatedAt @map("updated_at")
+
+  sessions      Session[]
+  wallet        Wallet?
+  transactions  Transaction[]
+  bets          Bet[]
+  seeds         ProvablyFairSeed[]
+  notifications Notification[]
+  gameHistories GameHistory[]
+  savedGames    Int[]         @default([]) @map("saved_games")
+  phoneNumber   String?       @map("phone_number")
+  countryCode   String?       @map("country_code")
+
+  @@map("users")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  userId       String   @map("user_id")
+  refreshToken String   @unique @map("refresh_token")
+  userAgent    String?  @map("user_agent")
+  ipAddress    String?  @map("ip_address")
+  expiresAt    DateTime @map("expires_at")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("sessions")
+}
+
+model Wallet {
+  id           String   @id @default(cuid())
+  userId       String   @unique @map("user_id")
+  balance      Decimal  @default(0.00) @db.Decimal(18, 8)
+  vaultBalance Decimal  @default(0.00) @db.Decimal(18, 8) @map("vault_balance")
+  currency     String   @default("USD")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("wallets")
+}
+
+model Transaction {
+  id          String            @id @default(cuid())
+  userId      String            @map("user_id")
+  amount      Decimal           @db.Decimal(18, 8)
+  currency    String            @default("USD")
+  type        TransactionType
+  status      TransactionStatus @default(PENDING)
+  referenceId String?           @map("reference_id")
+  description String?
+  createdAt   DateTime          @default(now()) @map("created_at")
+  updatedAt   DateTime          @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("transactions")
+}
+
+model Game {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  slug        String   @unique
+  description String?
+  isActive    Boolean  @default(true) @map("is_active")
+  edge        Decimal  @default(1.00) @db.Decimal(5, 2)
+  minBet      Decimal  @default(0.10) @map("min_bet") @db.Decimal(18, 8)
+  maxBet      Decimal  @default(1000.00) @map("max_bet") @db.Decimal(18, 8)
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  bets      Bet[]
+  histories GameHistory[]
+
+  @@map("games")
+}
+
+model Bet {
+  id         String    @id @default(cuid())
+  userId     String    @map("user_id")
+  gameId     String    @map("game_id")
+  amount     Decimal   @db.Decimal(18, 8)
+  multiplier Decimal   @default(0.00) @db.Decimal(18, 4)
+  payout     Decimal   @default(0.00) @db.Decimal(18, 8)
+  status     BetStatus @default(PENDING)
+  gameData   Json?     @map("game_data")
+  resultData Json?     @map("result_data")
+  createdAt  DateTime  @default(now()) @map("created_at")
+
+  user    User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  game    Game         @relation(fields: [gameId], references: [id], onDelete: Restrict)
+  history GameHistory?
+
+  @@index([userId])
+  @@index([gameId])
+  @@map("bets")
+}
+
+model GameHistory {
+  id        String   @id @default(cuid())
+  betId     String   @unique @map("bet_id")
+  gameId    String   @map("game_id")
+  userId    String   @map("user_id")
+  seedId    String   @map("seed_id")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  bet  Bet              @relation(fields: [betId], references: [id], onDelete: Cascade)
+  game Game             @relation(fields: [gameId], references: [id], onDelete: Restrict)
+  user User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  seed ProvablyFairSeed @relation(fields: [seedId], references: [id], onDelete: Restrict)
+
+  @@index([userId])
+  @@index([gameId])
+  @@map("game_history")
+}
+
+model ProvablyFairSeed {
+  id         String    @id @default(cuid())
+  userId     String    @map("user_id")
+  serverSeed String    @map("server_seed")
+  serverHash String    @map("server_hash")
+  clientSeed String    @map("client_seed")
+  nonce      Int       @default(0)
+  isActive   Boolean   @default(true) @map("is_active")
+  createdAt  DateTime  @default(now()) @map("created_at")
+  rotatedAt  DateTime? @map("rotated_at")
+
+  user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  histories GameHistory[]
+
+  @@index([userId])
+  @@map("provably_fair_seeds")
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String   @map("user_id")
+  title     String
+  message   String
+  isRead    Boolean  @default(false) @map("is_read")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("notifications")
+}
+
+model AdminLog {
+  id        String   @id @default(cuid())
+  adminId   String   @map("admin_id")
+  action    String
+  targetId  String?  @map("target_id")
+  details   Json?
+  ipAddress String?  @map("ip_address")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("admin_logs")
+}

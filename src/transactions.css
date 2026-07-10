@@ -1,0 +1,209 @@
+/* Transactions Page */
+.tx-page {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  background-color: var(--bg-darker);
+}
+
+.tx-page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 32px;
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--bg-dark);
+  flex-shrink: 0;
+}
+
+.tx-page-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.tx-close-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: 0.2s;
+}
+.tx-close-btn:hover { color: var(--text-main); }
+
+.tx-layout {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+/* Sidebar */
+.tx-sidenav {
+  width: 200px;
+  flex-shrink: 0;
+  background-color: var(--bg-dark);
+  border-right: 1px solid var(--border-color);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.tx-sidenav-item {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  padding: 12px 16px;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: 0.2s;
+  width: 100%;
+  font-family: 'Inter', sans-serif;
+}
+.tx-sidenav-item:hover {
+  background-color: var(--bg-hover);
+  color: var(--text-main);
+}
+.tx-sidenav-item.active {
+  background-color: var(--bg-hover);
+  color: var(--text-main);
+  font-weight: 600;
+}
+
+/* Right content */
+.tx-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.tx-content {
+  flex: 1;
+  padding: 0;
+}
+
+/* Sub tabs (scrollable) */
+.tx-subtabs-wrapper {
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--bg-dark);
+  overflow-x: auto;
+}
+
+.tx-subtabs {
+  display: flex;
+  padding: 0 16px;
+  gap: 0;
+  min-width: max-content;
+}
+
+.tx-subtab {
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--text-muted);
+  padding: 14px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.2s;
+  white-space: nowrap;
+  font-family: 'Inter', sans-serif;
+}
+.tx-subtab:hover { color: var(--text-main); }
+.tx-subtab.active {
+  color: var(--text-main);
+  border-bottom-color: var(--accent-blue);
+  font-weight: 600;
+}
+
+/* Table */
+.tx-table-header {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  padding: 14px 24px;
+  font-size: 13px;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border-color);
+  font-weight: 500;
+  background-color: var(--bg-dark);
+}
+
+/* For 3-column tables */
+.tx-table-header:has(span:last-child:nth-child(3)) {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+/* Empty state */
+.tx-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 80px 24px;
+  gap: 14px;
+  background-color: var(--bg-dark);
+}
+.tx-empty-icon { font-size: 48px; opacity: 0.4; }
+.tx-empty-text {
+  color: var(--text-muted);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Footer */
+.tx-footer {
+  background-color: var(--bg-dark);
+  border-top: 1px solid var(--border-color);
+  padding: 32px;
+  margin-top: auto;
+}
+
+.tx-footer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 24px;
+}
+
+.tx-footer-title {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: var(--text-main);
+}
+
+.tx-footer-link {
+  display: block;
+  font-size: 13px;
+  color: var(--text-muted);
+  text-decoration: none;
+  margin-bottom: 8px;
+  transition: 0.2s;
+}
+.tx-footer-link:hover { color: var(--text-main); }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .tx-layout { flex-direction: column; }
+  .tx-sidenav {
+    width: 100%;
+    flex-direction: row;
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+    overflow-x: auto;
+    padding: 8px;
+  }
+  .tx-sidenav-item {
+    white-space: nowrap;
+    padding: 8px 14px;
+  }
+  .tx-page-header { padding: 16px; }
+  .tx-footer-grid { grid-template-columns: repeat(2, 1fr); }
+}

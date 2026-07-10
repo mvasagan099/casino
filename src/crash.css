@@ -1,0 +1,292 @@
+/* Crash Page */
+.crash-page {
+  flex: 1;
+  display: flex;
+  height: 100%;
+  background-color: #0f212e;
+  overflow: hidden;
+}
+
+/* Left Panel */
+.crash-panel {
+  width: 320px;
+  flex-shrink: 0;
+  background-color: #1a2c38;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  border-right: 1px solid #2f4553;
+  overflow-y: auto;
+}
+
+/* Mode Tabs */
+.crash-mode-tabs {
+  display: flex;
+  background-color: #0f212e;
+  border-radius: 6px;
+  padding: 3px;
+  gap: 2px;
+}
+.crash-mode-tab {
+  flex: 1;
+  border: none;
+  background: transparent;
+  color: #b1bad3;
+  padding: 8px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.crash-mode-tab.active {
+  background-color: #2f4553;
+  color: white;
+}
+
+/* Fields */
+.crash-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.crash-field-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #b1bad3;
+  font-weight: 600;
+}
+.crash-input-row {
+  display: flex;
+  gap: 6px;
+}
+.crash-input-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  background-color: #0f212e;
+  border-radius: 4px;
+  padding: 0 10px;
+  border: 1px solid #2f4553;
+}
+.crash-input-wrap.disabled {
+  opacity: 0.7;
+}
+.crash-cur {
+  color: #b1bad3;
+  font-size: 14px;
+  margin-right: 8px;
+}
+.crash-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 0;
+  width: 100%;
+}
+.crash-input:disabled { opacity: 0.5; }
+.crash-sm-btn {
+  background-color: #2f4553;
+  border: none;
+  color: #b1bad3;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 0 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.crash-sm-btn:hover:not(:disabled) { background-color: #3b5060; color: white; }
+.crash-sm-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* Bet Button */
+.crash-bet-btn {
+  width: 100%;
+  background-color: #00e701;
+  color: #000;
+  border: none;
+  border-radius: 4px;
+  padding: 14px;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.crash-bet-btn:hover:not(:disabled) { background-color: #00cc00; }
+.crash-bet-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.crash-bet-btn.cashout {
+  background-color: #1475e1;
+  color: white;
+}
+.crash-bet-btn.cashout:hover:not(:disabled) { background-color: #1b66b8; }
+
+/* Game Area */
+.crash-game-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #1a2c38;
+  position: relative;
+}
+
+/* History Bar */
+.crash-history-bar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 12px 20px;
+  gap: 8px;
+  background-color: #0f212e;
+  overflow-x: hidden;
+}
+
+.crash-history-badge {
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 12px;
+}
+.crash-history-badge.green {
+  color: #00e701;
+  background-color: rgba(0, 231, 1, 0.1);
+}
+.crash-history-badge.grey {
+  color: #b1bad3;
+  background-color: rgba(177, 186, 211, 0.1);
+}
+.crash-history-btn {
+  background-color: rgba(255,255,255,0.05);
+  border: none;
+  color: white;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+/* Board */
+.crash-board {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 16px;
+  background-color: #0f212e;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.crash-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.crash-center-display {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.crash-starting {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.crash-starting-label {
+  font-size: 18px;
+  color: #b1bad3;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.crash-starting-time {
+  font-size: 42px;
+  color: white;
+  font-weight: 800;
+}
+
+.crash-crashed-label {
+  font-size: 24px;
+  color: #ff5555;
+  font-weight: 800;
+}
+
+/* Floating Display attached to graph */
+.crash-floating-display {
+  position: absolute;
+  transform: translate(-50%, -100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+  margin-top: -12px;
+  z-index: 20;
+}
+
+.crash-multiplier-text {
+  font-size: 56px;
+  font-weight: 900;
+  color: white;
+  /* Very thick outline using multiple shadows */
+  --outline: #00e701;
+  text-shadow: 
+    -3px -3px 0 var(--outline),  
+     3px -3px 0 var(--outline),
+    -3px  3px 0 var(--outline),
+     3px  3px 0 var(--outline),
+    -4px  0   0 var(--outline),
+     4px  0   0 var(--outline),
+     0   -4px 0 var(--outline),
+     0    4px 0 var(--outline),
+     0    8px 12px rgba(0,0,0,0.5);
+}
+.crash-multiplier-text.watching { --outline: #00e701; }
+.crash-multiplier-text.playing { --outline: #1475e1; }
+.crash-multiplier-text.crashed { --outline: #ff5555; }
+
+.crash-profit-pill {
+  background-color: #1a2c38;
+  color: #b1bad3;
+  border-radius: 12px;
+  padding: 4px 12px;
+  font-size: 13px;
+  font-weight: 700;
+  margin-top: 4px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+/* Bottom Bar */
+.crash-bottom-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  background-color: #1a2c38;
+}
+.crash-brand {
+  font-size: 18px;
+  font-weight: 800;
+  color: rgba(255,255,255,0.4);
+  font-style: italic;
+}
