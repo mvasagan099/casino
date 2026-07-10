@@ -36,6 +36,7 @@ import chickenRoutes from './modules/games/chicken/chicken.routes.js';
 import rpsRoutes from './modules/games/rps/rps.routes.js';
 import blackjackRoutes from './modules/games/blackjack/blackjack.routes.js';
 import historyRoutes from './modules/games/history.routes.js';
+import affiliateRoutes from './modules/affiliate/affiliate.routes.js';
 
 // Admin routes
 import adminRoutes from './modules/admin/admin.routes.js';
@@ -158,6 +159,7 @@ export async function buildApp(opts = {}) {
   await app.register(plinkoRoutes, { prefix: '/api/games/plinko' });
   await app.register(kenoRoutes, { prefix: '/api/games/keno' });
   await app.register(wheelRoutes, { prefix: '/api/games/wheel' });
+  await app.register(affiliateRoutes, { prefix: '/api/affiliate' });
   await app.register(hiloRoutes, { prefix: '/api/games/hilo' });
   await app.register(barsRoutes, { prefix: '/api/games/bars' });
   await app.register(drillRoutes, { prefix: '/api/games/drill' });

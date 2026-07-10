@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Users, Copy, ChevronDown, SortAsc, Filter, Download,
   HelpCircle, ChevronRight, X, Zap, Percent, Globe, Clock,
   MessageSquare, RefreshCw, ChevronUp, Info
 } from 'lucide-react';
+import { api } from './api/client';
 import './affiliate.css';
 
 const TABS = ['Overview', 'Campaigns', 'Commission', 'Referred Users', 'FAQ'];
@@ -11,11 +12,15 @@ const TABS = ['Overview', 'Campaigns', 'Commission', 'Referred Users', 'FAQ'];
 /* ─────────────────────────────────────────────────────────────
    Overview Tab
 ───────────────────────────────────────────────────────────── */
-function OverviewTab() {
+function OverviewTab({ stats }) {
   const [copied, setCopied] = useState(false);
 
+  const affiliateUrl = stats?.affiliateCode 
+    ? `${window.location.origin}/?c=${stats.affiliateCode}`
+    : 'Generating...';
+
   const handleCopy = () => {
-    navigator.clipboard.writeText('kings.com/?c=Abi2UNIf');
+    navigator.clipboard.writeText(affiliateUrl);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -55,7 +60,7 @@ function OverviewTab() {
           <div className="af-link-section">
             <label>Affiliate Link</label>
             <div className="af-link-input-row">
-              <input type="text" readOnly value="kings.com/?c=Abi2UNIf" className="af-link-input" />
+              <input type="text" readOnly value={affiliateUrl} className="af-link-input" />
               <button className="af-copy-btn" onClick={handleCopy}>
                 {copied ? '✓' : <Copy size={16} />}
               </button>
@@ -102,7 +107,7 @@ function OverviewTab() {
 /* ─────────────────────────────────────────────────────────────
    Campaigns Tab
 ───────────────────────────────────────────────────────────── */
-function CampaignsTab() {
+function CampaignsTab({ stats }) {
   return (
     <div className="af-content">
       <h2 className="af-section-title">Campaigns</h2>
@@ -111,10 +116,10 @@ function CampaignsTab() {
       <div className="af-campaign-stats">
         {[
           { label: 'Campaign Hits', val: '0' },
-          { label: 'Referred Users', val: '0' },
+          { label: 'Referred Users', val: stats?.totalReferrals || '0' },
           { label: 'First Time Deposits (FTD)', val: '0' },
           { label: 'Total Deposits', val: '0' },
-          { label: 'Overall Commission', val: '$0.00 USD' },
+          { label: 'Overall Commission', val: `$${(stats?.totalEarnings || 0).toFixed(2)} USD` },
         ].map((s, i) => (
           <div className="af-campaign-stat" key={i}>
             <div className="af-cstat-label">{s.label} <Info size={12} /></div>
@@ -137,8 +142,8 @@ function CampaignsTab() {
       </div>
 
       <div className="af-campaign-row">
-        <div className="af-campaign-name">loruipr (Abi2UNIf)</div>
-        <div className="af-campaign-meta">Date Created: 7/7/2026 <ChevronDown size={14} /></div>
+        <div className="af-campaign-name">Default Campaign</div>
+        <div className="af-campaign-meta">Active <ChevronDown size={14} /></div>
       </div>
 
       <div className="af-pagination">
@@ -158,7 +163,7 @@ const currencyColors = {
   SOL:'#00FFA3', DOGE:'#C2A633', BCH:'#8DC351', XRP:'#23292F', TRX:'#FF0013'
 };
 
-function CommissionTab() {
+function CommissionTab({ stats }) {
   return (
     <div className="af-content">
       <h2 className="af-section-title">Commission</h2>
@@ -189,9 +194,9 @@ function CommissionTab() {
               <span className="af-cur-dot" style={{ background: currencyColors[cur] }}></span>
               {cur}
             </span>
+            <span className="af-cur-val">{(stats?.totalEarnings || 0).toFixed(8)} <span className="af-cur-dot-sm" style={{ background: currencyColors[cur] }}></span></span>
             <span className="af-cur-val">0.00000000 <span className="af-cur-dot-sm" style={{ background: currencyColors[cur] }}></span></span>
-            <span className="af-cur-val">0.00000000 <span className="af-cur-dot-sm" style={{ background: currencyColors[cur] }}></span></span>
-            <span className="af-cur-val">0.00000000 <span className="af-cur-dot-sm" style={{ background: currencyColors[cur] }}></span></span>
+            <span className="af-cur-val">{(stats?.totalEarnings || 0).toFixed(8)} <span className="af-cur-dot-sm" style={{ background: currencyColors[cur] }}></span></span>
           </div>
         ))}
       </div>
@@ -293,48 +298,28 @@ function FAQTab() {
 }
 
 /* ─────────────────────────────────────────────────────────────
-   Footer
-───────────────────────────────────────────────────────────── */
-function AffiliateFooter() {
-  const columns = [
-    { title: 'Casino', links: ['Casino Games', 'Slots', 'Live Casino', 'Roulette', 'Blackjack', 'Poker'] },
-    { title: 'Sports', links: ['Sportsbook', 'Live Sports', 'Soccer', 'Basketball', 'Tennis', 'Esports'] },
-    { title: 'Support', links: ['Help Center ↗', 'Fairness', 'Responsible Gambling', 'Gambling Helpline ↗', 'Live Support', 'Self Exclusion'] },
-    { title: 'About Us', links: ['VIP Club', 'Affiliate', 'Privacy Policy', 'AML Policy', 'Terms of Service'] },
-    { title: 'Payment Info', links: ['Deposit & Withdrawals', 'Currency Guide', 'Crypto Guide', 'Supported Crypto', 'How to Use the Vault', 'How Much to Bet With'] },
-    { title: 'FAQ', links: ['How-to Guides', 'Online Casino Guide', 'Sports Betting Guide', 'How to Live Stream Sports', 'Kings VIP Guide', 'House Edge Guide'] },
-  ];
-
-  return (
-    <footer className="af-footer">
-      <div className="af-footer-grid">
-        {columns.map(col => (
-          <div key={col.title} className="af-footer-col">
-            <div className="af-footer-title">{col.title}</div>
-            {col.links.map(link => (
-              <a key={link} href="#" className="af-footer-link">{link}</a>
-            ))}
-          </div>
-        ))}
-      </div>
-    </footer>
-  );
-}
-
-/* ─────────────────────────────────────────────────────────────
    Main Affiliate Component
 ───────────────────────────────────────────────────────────── */
-export default function AffiliatePage({ onClose }) {
+export default function AffiliatePage() {
   const [activeTab, setActiveTab] = useState('Overview');
+  const [stats, setStats] = useState(null);
 
-  const renderTab = () => {
+  useEffect(() => {
+    api.get('/affiliate/stats').then(res => {
+      if(res.data.success) {
+        setStats(res.data.data);
+      }
+    }).catch(console.error);
+  }, []);
+
+  const renderContent = () => {
     switch (activeTab) {
-      case 'Overview': return <OverviewTab />;
-      case 'Campaigns': return <CampaignsTab />;
-      case 'Commission': return <CommissionTab />;
-      case 'Referred Users': return <ReferredUsersTab />;
+      case 'Overview': return <OverviewTab stats={stats} />;
+      case 'Campaigns': return <CampaignsTab stats={stats} />;
+      case 'Commission': return <CommissionTab stats={stats} />;
+      case 'Referred Users': return <ReferredUsersTab stats={stats} />;
       case 'FAQ': return <FAQTab />;
-      default: return <OverviewTab />;
+      default: return <OverviewTab stats={stats} />;
     }
   };
 
@@ -363,8 +348,7 @@ export default function AffiliatePage({ onClose }) {
 
         {/* Right content */}
         <div className="af-right">
-          {renderTab()}
-          <AffiliateFooter />
+          {renderContent()}
         </div>
       </div>
     </div>

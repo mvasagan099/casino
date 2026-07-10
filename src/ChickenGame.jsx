@@ -219,8 +219,8 @@ export default function ChickenGame() {
                     </div>
                   )}
                   
-                  {/* Passed Cars & Barriers (shown on current and past lanes) */}
-                  {lane >= i + 1 && status !== 'idle' && (
+                  {/* Passed Cars & Barriers (shown on current and past lanes, except the one that crashed) */}
+                  {lane >= i + 1 && status !== 'idle' && !(status === 'crashed' && lane === i + 1) && (
                     <div style={{ position: 'absolute', bottom: '150px', zIndex: 5 }}>
                       {i % 3 === 0 ? (
                         <div className="css-car police">

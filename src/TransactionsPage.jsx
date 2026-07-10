@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
-import { FileText, X } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { FileText, X, Loader } from 'lucide-react';
+import { api } from './api/client';
 import './transactions.css';
 
-const NAV_TABS = ['Deposits', 'Withdrawals', 'Bonuses', 'Raffles', 'Races', 'Other'];
+const NAV_TABS = ['Deposits', 'Withdrawals', 'Bonuses'];
 
 const BONUS_SUB_TABS = ['All Bonuses', 'Manual', 'Promotional', 'Drop', 'Rakeback', 'Reload', 'Race Payout', 'Sportsbook Prom'];
 const OTHER_SUB_TABS = ['All Other', 'Tips Received', 'Vault Deposit', 'Vault Withdrawal', 'Campaign Withdrawal', 'Rain Received'];
@@ -21,19 +22,6 @@ function TableWithSubTabs({ subTabs, emptyMsg, columns }) {
 
   return (
     <>
-      <div className="tx-subtabs-wrapper">
-        <div className="tx-subtabs">
-          {subTabs.map(tab => (
-            <button
-              key={tab}
-              className={`tx-subtab ${activeSubTab === tab ? 'active' : ''}`}
-              onClick={() => setActiveSubTab(tab)}
-            >
-              {tab}
-            </button>
-          ))}
-        </div>
-      </div>
       <div className="tx-table-header">
         {columns.map(col => <span key={col}>{col}</span>)}
       </div>
@@ -43,6 +31,23 @@ function TableWithSubTabs({ subTabs, emptyMsg, columns }) {
 }
 
 function DepositsTab() {
+  const [deposits, setDeposits] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchDeposits = async () => {
+      try {
+        const res = await api.get('/wallet/transactions?type=DEPOSIT');
+        setDeposits(res.data?.data?.transactions?.slice(0, 20) || []);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchDeposits();
+  }, []);
+
   return (
     <>
       <div className="tx-table-header">
@@ -52,12 +57,55 @@ function DepositsTab() {
         <span>View</span>
         <span>Payment Provider</span>
       </div>
-      <EmptyState message="No Banking Deposits" />
+      {loading ? (
+        <div style={{ padding: '40px', textAlign: 'center', backgroundColor: 'var(--bg-dark)' }}>
+          <Loader className="animate-spin" style={{ margin: '0 auto', color: 'var(--text-muted)' }} />
+        </div>
+      ) : deposits.length === 0 ? (
+        <EmptyState message="No Banking Deposits" />
+      ) : (
+        <div style={{ backgroundColor: 'var(--bg-dark)' }}>
+          {deposits.map(tx => (
+            <div key={tx.id} style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', padding: '14px 24px', fontSize: '13px', borderBottom: '1px solid var(--border-color)', alignItems: 'center' }}>
+              <div style={{ color: 'var(--text-main)' }}>
+                {new Date(tx.createdAt).toLocaleDateString()} {new Date(tx.createdAt).toLocaleTimeString()}
+              </div>
+              <div style={{ color: '#00e701', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                +{tx.amount} <span style={{ color: 'var(--text-muted)' }}>T</span>
+              </div>
+              <div style={{ color: 'var(--text-main)', textTransform: 'capitalize' }}>
+                {tx.status.toLowerCase()}
+              </div>
+              <div>
+                <FileText size={16} style={{ color: 'var(--text-muted)', cursor: 'pointer' }} />
+              </div>
+              <div style={{ color: 'var(--text-muted)' }}>Internal</div>
+            </div>
+          ))}
+        </div>
+      )}
     </>
   );
 }
 
 function WithdrawalsTab() {
+  const [withdrawals, setWithdrawals] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchWithdrawals = async () => {
+      try {
+        const res = await api.get('/wallet/transactions?type=WITHDRAWAL');
+        setWithdrawals(res.data?.data?.transactions?.slice(0, 20) || []);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchWithdrawals();
+  }, []);
+
   return (
     <>
       <div className="tx-table-header">
@@ -67,7 +115,33 @@ function WithdrawalsTab() {
         <span>View</span>
         <span>Payment Provider</span>
       </div>
-      <EmptyState message="No Withdrawals" />
+      {loading ? (
+        <div style={{ padding: '40px', textAlign: 'center', backgroundColor: 'var(--bg-dark)' }}>
+          <Loader className="animate-spin" style={{ margin: '0 auto', color: 'var(--text-muted)' }} />
+        </div>
+      ) : withdrawals.length === 0 ? (
+        <EmptyState message="No Withdrawals" />
+      ) : (
+        <div style={{ backgroundColor: 'var(--bg-dark)' }}>
+          {withdrawals.map(tx => (
+            <div key={tx.id} style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', padding: '14px 24px', fontSize: '13px', borderBottom: '1px solid var(--border-color)', alignItems: 'center' }}>
+              <div style={{ color: 'var(--text-main)' }}>
+                {new Date(tx.createdAt).toLocaleDateString()} {new Date(tx.createdAt).toLocaleTimeString()}
+              </div>
+              <div style={{ color: '#ff2a2a', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                -{tx.amount} <span style={{ color: 'var(--text-muted)' }}>T</span>
+              </div>
+              <div style={{ color: 'var(--text-main)', textTransform: 'capitalize' }}>
+                {tx.status.toLowerCase()}
+              </div>
+              <div>
+                <FileText size={16} style={{ color: 'var(--text-muted)', cursor: 'pointer' }} />
+              </div>
+              <div style={{ color: 'var(--text-muted)' }}>Internal</div>
+            </div>
+          ))}
+        </div>
+      )}
     </>
   );
 }
@@ -98,33 +172,6 @@ function RacesTab() {
   );
 }
 
-/* ── Footer ── */
-function TransactionsFooter() {
-  const columns = [
-    { title: 'Casino', links: ['Casino Games', 'Slots', 'Live Casino', 'Roulette', 'Blackjack', 'Poker', 'Publishers'] },
-    { title: 'Sports', links: ['Sportsbook', 'Live Sports', 'Soccer', 'Basketball', 'Tennis', 'Esports', 'Bet Bonuses'] },
-    { title: 'Support', links: ['Help Center ↗', 'Fairness', 'Responsible Gambling', 'Gambling Helpline ↗', 'Live Support', 'Self Exclusion', 'Law Enforcement Request'] },
-    { title: 'About Us', links: ['VIP Club', 'Affiliate', 'Privacy Policy', 'AML Policy', 'Terms of Service'] },
-    { title: 'Payment Info', links: ['Deposit & Withdrawals', 'Currency Guide', 'Crypto Guide', 'Supported Crypto', 'How to Use the Vault', 'How Much to Bet With'] },
-    { title: 'FAQ', links: ['How-to Guides', 'Online Casino Guide', 'Sports Betting Guide', 'How to Live Stream Sports', 'Kings VIP Guide', 'House Edge Guide'] },
-  ];
-
-  return (
-    <footer className="tx-footer">
-      <div className="tx-footer-grid">
-        {columns.map(col => (
-          <div key={col.title} className="tx-footer-col">
-            <div className="tx-footer-title">{col.title}</div>
-            {col.links.map(link => (
-              <a key={link} href="#" className="tx-footer-link">{link}</a>
-            ))}
-          </div>
-        ))}
-      </div>
-    </footer>
-  );
-}
-
 /* ── Main Component ── */
 export default function TransactionsPage({ onClose }) {
   const [activeTab, setActiveTab] = useState('Deposits');
@@ -134,9 +181,6 @@ export default function TransactionsPage({ onClose }) {
       case 'Deposits': return <DepositsTab />;
       case 'Withdrawals': return <WithdrawalsTab />;
       case 'Bonuses': return <TableWithSubTabs subTabs={BONUS_SUB_TABS} emptyMsg="No entries." columns={['Date', 'Amount', 'Type']} />;
-      case 'Raffles': return <RafflesTab />;
-      case 'Races': return <RacesTab />;
-      case 'Other': return <TableWithSubTabs subTabs={OTHER_SUB_TABS} emptyMsg="No entries." columns={['Date', 'Amount', 'Type']} />;
       default: return <DepositsTab />;
     }
   };
@@ -170,7 +214,7 @@ export default function TransactionsPage({ onClose }) {
           <div className="tx-content">
             {renderContent()}
           </div>
-          <TransactionsFooter />
+
         </div>
       </div>
     </div>

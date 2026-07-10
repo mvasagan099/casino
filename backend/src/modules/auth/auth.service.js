@@ -15,7 +15,7 @@ import { sendVerificationEmail, sendPasswordResetEmail } from './auth.mailer.js'
 /**
  * Register a new user. Also creates Wallet and initial Provably Fair seed.
  */
-export async function registerUser(fastify, { email, username, password, phoneNumber, countryCode }) {
+export async function registerUser(fastify, { email, username, password, phoneNumber, countryCode, referralCode }) {
   const existing = await fastify.prisma.user.findFirst({
     where: { OR: [{ email }, { username }] },
   });
@@ -28,15 +28,26 @@ export async function registerUser(fastify, { email, username, password, phoneNu
   const passwordHash = await hashPassword(password);
   const emailVerifyToken = crypto.randomBytes(32).toString('hex');
 
+  let referredById = null;
+  if (referralCode) {
+    const referrer = await fastify.prisma.user.findFirst({ where: { affiliateCode: referralCode } });
+    if (referrer) {
+      referredById = referrer.id;
+    }
+  }
+
   // Create user + wallet + provably fair seed in one transaction
   const user = await fastify.prisma.$transaction(async (tx) => {
     const newUser = await tx.user.create({
-      data: { email, username, passwordHash, emailVerifyToken, phoneNumber, countryCode },
-      select: { id: true, email: true, username: true, role: true, savedGames: true, phoneNumber: true, countryCode: true },
+      data: { email, username, passwordHash, emailVerifyToken, phoneNumber, countryCode, referredById },
+      select: { id: true, email: true, username: true, role: true, savedGames: true, phoneNumber: true, countryCode: true, affiliateCode: true },
     });
 
     // Auto-create wallet
     await tx.wallet.create({ data: { userId: newUser.id } });
+    
+    // Auto-create Affiliate profile
+    await tx.affiliate.create({ data: { userId: newUser.id } });
 
     // Auto-generate initial Provably Fair seed pair
     const serverSeed = crypto.randomBytes(32).toString('hex');

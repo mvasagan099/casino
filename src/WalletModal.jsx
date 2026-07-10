@@ -14,6 +14,7 @@ export default function WalletModal({ onClose }) {
   const [activeTab, setActiveTab] = useState('deposit');
   const [currency, setCurrency] = useState(currencies[0]);
   const [amount, setAmount] = useState('');
+  const [couponCode, setCouponCode] = useState('');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
@@ -30,6 +31,30 @@ export default function WalletModal({ onClose }) {
       // setTimeout(onClose, 2000);
     } catch (err) {
       setError(err.response?.data?.message || err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleRedeem = async () => {
+    setError('');
+    setMessage('');
+    if (!couponCode) {
+      setError('Please enter a coupon code');
+      return;
+    }
+    
+    try {
+      setLoading(true);
+      if (couponCode.toLowerCase() === 'free100') {
+        await deposit(100, `Coupon: ${couponCode}`);
+        setMessage(`Coupon redeemed successfully! Added 100 ${currency.name}.`);
+        setCouponCode('');
+      } else {
+        setError('Invalid or expired coupon code.');
+      }
+    } catch (err) {
+      setError('Failed to redeem coupon.');
     } finally {
       setLoading(false);
     }
@@ -65,50 +90,48 @@ export default function WalletModal({ onClose }) {
         <div className="wallet-tabs">
           <button className={`wallet-tab ${activeTab === 'deposit' ? 'active' : ''}`} onClick={() => { setActiveTab('deposit'); setMessage(''); setError(''); setAmount(''); }}>Deposit</button>
           <button className={`wallet-tab ${activeTab === 'withdraw' ? 'active' : ''}`} onClick={() => { setActiveTab('withdraw'); setMessage(''); setError(''); setAmount(''); }}>Withdraw</button>
-          <button className={`wallet-tab ${activeTab === 'buy' ? 'active' : ''}`} onClick={() => { setActiveTab('buy'); setMessage(''); setError(''); }}>Buy Crypto</button>
         </div>
 
         <div className="wallet-body">
-          <div className="wallet-label">Currency</div>
-          <button className="currency-selector-btn">
-            <div className="left">
-              <span style={{ color: currency.color, fontWeight: 'bold' }}>{currency.symbol}</span>
-              {currency.name}
-            </div>
-            <ChevronDown size={16} />
-          </button>
-
           {error && <div style={{ color: '#ff2a2a', marginTop: '10px', fontSize: '14px' }}>{error}</div>}
           {message && <div style={{ color: '#00e701', marginTop: '10px', fontSize: '14px' }}>{message}</div>}
 
           {activeTab === 'deposit' && (
             <div className="deposit-section">
-              <div className="wallet-input-group">
-                <label className="wallet-label">Amount</label>
-                <input 
-                  type="number" 
-                  className="wallet-input" 
-                  placeholder="Enter amount to deposit" 
-                  value={amount}
-                  onChange={(e) => setAmount(e.target.value)}
-                />
+              <div style={{ marginTop: '24px' }}>
+                <h4 style={{ color: 'white', marginBottom: '16px', fontSize: '15px' }}>Redeem Coupon</h4>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+                  <input 
+                    type="text" 
+                    className="wallet-input" 
+                    placeholder="Enter coupon code (try free100)" 
+                    value={couponCode}
+                    onChange={(e) => setCouponCode(e.target.value)}
+                    style={{ borderRadius: '8px' }}
+                  />
+                  <button 
+                    className="submit-btn" 
+                    onClick={handleRedeem}
+                    disabled={loading || !couponCode}
+                    style={{ backgroundColor: 'var(--accent-blue)', color: 'white', fontWeight: 'bold', borderRadius: '8px' }}
+                  >
+                    {loading ? <Loader className="animate-spin" size={16} /> : 'Redeem Coupon'}
+                  </button>
+                </div>
               </div>
-              <button 
-                className="submit-btn" 
-                onClick={handleDeposit} 
-                style={{ backgroundColor: 'var(--accent-blue)', color: 'white' }}
-                disabled={loading || !amount}
-              >
-                {loading ? <Loader className="animate-spin" size={16} /> : `Deposit ${currency.name}`}
-              </button>
-              <p style={{ fontSize: '13px', color: 'var(--text-muted)', textAlign: 'center', marginTop: '16px' }}>
-                Funds will be instantly credited to your balance.
-              </p>
             </div>
           )}
 
           {activeTab === 'withdraw' && (
             <div className="withdraw-section">
+              <div className="wallet-label">Currency</div>
+              <button className="currency-selector-btn">
+                <div className="left">
+                  <span style={{ color: currency.color, fontWeight: 'bold' }}>{currency.symbol}</span>
+                  {currency.name}
+                </div>
+                <ChevronDown size={16} />
+              </button>
               <div className="wallet-input-group">
                 <label className="wallet-label">{currency.name} Address</label>
                 <input type="text" className="wallet-input" placeholder={`Enter destination ${currency.name} address`} />
@@ -134,17 +157,6 @@ export default function WalletModal({ onClose }) {
             </div>
           )}
 
-          {activeTab === 'buy' && (
-            <div className="buy-section" style={{ textAlign: 'center', padding: '40px 0' }}>
-              <h3 style={{ color: 'white', marginBottom: '12px' }}>Buy Crypto Instantly</h3>
-              <p style={{ color: 'var(--text-muted)', fontSize: '14px', marginBottom: '24px' }}>
-                Use your credit card, Apple Pay, or Google Pay to securely buy crypto and start playing immediately.
-              </p>
-              <button className="submit-btn" style={{ backgroundColor: 'var(--accent-blue)', color: 'white' }}>
-                Buy via MoonPay
-              </button>
-            </div>
-          )}
         </div>
       </div>
     </div>

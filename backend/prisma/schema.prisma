@@ -20,6 +20,7 @@ enum TransactionType {
   WIN
   BONUS
   TRANSFER
+  AFFILIATE_COMMISSION
 }
 
 enum TransactionStatus {
@@ -62,7 +63,26 @@ model User {
   phoneNumber   String?       @map("phone_number")
   countryCode   String?       @map("country_code")
 
+  affiliateCode String?       @unique @default(uuid()) @map("affiliate_code")
+  referredById  String?       @map("referred_by_id")
+  referredBy    User?         @relation("UserReferrals", fields: [referredById], references: [id])
+  referrals     User[]        @relation("UserReferrals")
+  affiliate     Affiliate?
+
   @@map("users")
+}
+
+model Affiliate {
+  id              String   @id @default(cuid())
+  userId          String   @unique @map("user_id")
+  commissionRate  Decimal  @default(0.10) @db.Decimal(5, 2) @map("commission_rate")
+  totalEarnings   Decimal  @default(0.00) @db.Decimal(18, 8) @map("total_earnings")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("affiliates")
 }
 
 model Session {

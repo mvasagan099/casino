@@ -10,6 +10,9 @@ export default function LiveBetsTable() {
   const { socket } = useSocket();
   const { user } = useAuth();
   const [liveBets, setLiveBets] = useState([]);
+  const [raceLeaderboard, setRaceLeaderboard] = useState([]);
+  const [filterGame, setFilterGame] = useState('All');
+  const [showFilter, setShowFilter] = useState(false);
 
   const myBetsData = [
     { game: 'Dice', time: '12:53 PM', amount: '0.00000000', curr: 'T', mult: '2.00×', payout: '0.00000000', curr2: 'T', positive: true },
@@ -44,14 +47,7 @@ export default function LiveBetsTable() {
     { game: 'Kill Switch', user: 'Hidden', hidden: true, time: '3:08 PM', amount: '360.35999964', curr: 'T', mult: '16.72×', payout: '6,024.618593...', curr2: 'T', positive: true },
   ];
 
-  const raceLeaderboard = [
-    { rank: 1, user: 'Hidden', hidden: true, wagered: '$20,993,078.20', prize: '$25,000.00' },
-    { rank: 2, user: 'Hidden', hidden: true, wagered: '$20,776,271.65', prize: '$12,000.00' },
-    { rank: 3, user: 'Hidden', hidden: true, wagered: '$15,513,874.60', prize: '$8,000.00' },
-    { rank: 4, user: 'Hidden', hidden: true, wagered: '$12,894,594.49', prize: '$6,000.00' },
-    { rank: 5, user: 'DeepPockets6', wagered: '$12,040,800.00', prize: '$5,000.00' },
-    { rank: 6, user: 'Hidden', hidden: true, wagered: '$11,587,741.39', prize: '$3,500.00' },
-  ];
+
 
   useEffect(() => {
     if (!socket) return;
@@ -72,17 +68,30 @@ export default function LiveBetsTable() {
         }
       })
       .catch(console.error);
+
+    api.get('/games/leaderboard')
+      .then(res => {
+        if (res.data && res.data.success) {
+          setRaceLeaderboard(res.data.data);
+        }
+      })
+      .catch(console.error);
   }, []);
 
   const getActiveData = () => {
+    let filtered = liveBets;
+    if (filterGame !== 'All') {
+      filtered = filtered.filter(b => b.game === filterGame);
+    }
+
     if (activeTab === 'My Bets') {
-      return user ? liveBets.filter(b => b.user === user.username).slice(0, 8) : [];
+      return user ? filtered.filter(b => b.user === user.username).slice(0, 8) : [];
     }
     if (activeTab === 'All Bets') {
-      return liveBets.slice(0, 8);
+      return filtered.slice(0, 8);
     }
     if (activeTab === 'High Rollers') {
-      return liveBets.filter(b => parseFloat(b.amount) >= 100).slice(0, 8);
+      return [...filtered].sort((a, b) => parseFloat(b.payout) - parseFloat(a.payout)).slice(0, 8);
     }
     return [];
   };
@@ -102,8 +111,47 @@ export default function LiveBetsTable() {
           ))}
         </div>
 
-        <div className="my-bets-controls">
-          <button className="my-bets-control-btn"><Filter size={16} /></button>
+        <div className="my-bets-controls" style={{ position: 'relative' }}>
+          <button 
+            className={`my-bets-control-btn ${showFilter ? 'active' : ''}`}
+            onClick={() => setShowFilter(!showFilter)}
+            style={{ backgroundColor: showFilter ? 'var(--bg-highlight)' : '' }}
+          >
+            <Filter size={16} />
+          </button>
+          
+          {showFilter && (
+            <div style={{
+              position: 'absolute',
+              top: '100%',
+              right: '50px',
+              marginTop: '8px',
+              backgroundColor: '#1a2c38',
+              border: '1px solid var(--border-color)',
+              borderRadius: '4px',
+              padding: '8px 0',
+              zIndex: 50,
+              minWidth: '150px',
+              boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.5)'
+            }}>
+              <div 
+                style={{ padding: '8px 16px', cursor: 'pointer', backgroundColor: filterGame === 'All' ? 'var(--bg-highlight)' : 'transparent', color: 'var(--text-main)', fontSize: '14px', fontWeight: 600 }}
+                onClick={() => { setFilterGame('All'); setShowFilter(false); }}
+              >
+                All Games
+              </div>
+              {Array.from(new Set(liveBets.map(b => b.game))).map(game => (
+                <div 
+                  key={game}
+                  style={{ padding: '8px 16px', cursor: 'pointer', backgroundColor: filterGame === game ? 'var(--bg-highlight)' : 'transparent', color: 'var(--text-main)', fontSize: '14px', fontWeight: 600 }}
+                  onClick={() => { setFilterGame(game); setShowFilter(false); }}
+                >
+                  {game}
+                </div>
+              ))}
+            </div>
+          )}
+
           <button className="my-bets-control-btn" style={{ width: 'auto', gap: '8px', padding: '0 12px' }}>
             8 <ChevronDown size={14} />
           </button>

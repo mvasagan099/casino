@@ -117,6 +117,15 @@ function App() {
     return params.get('page') || 'home';
   });
   const [savedGames, setSavedGames] = useState([]);
+
+  // Capture referral code from URL
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const c = params.get('c');
+    if (c) {
+      localStorage.setItem('referralCode', c);
+    }
+  }, []);
   
   // Initialize saved games when user logs in (Option B: merge local guest games with user's saved games)
   useEffect(() => {
@@ -350,9 +359,7 @@ function App() {
                       <UserPlus size={18} /> Referral
                       <span style={{ marginLeft: 'auto', background: '#FFD700', color: '#000', fontSize: '10px', padding: '2px 6px', borderRadius: '10px', fontWeight: 'bold' }}>NEW</span>
                     </a>
-                    <a href="#" className="user-menu-item">
-                      <LineChart size={18} /> Statistics
-                    </a>
+
                     <a href="#" className="user-menu-item" onClick={(e) => { e.preventDefault(); setCurrentPage('transactions'); setIsUserDropdownOpen(false); }}>
                       <FileText size={18} /> Transactions
                     </a>

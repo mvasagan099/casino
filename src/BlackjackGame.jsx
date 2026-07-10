@@ -107,6 +107,10 @@ export default function BlackjackGame() {
   const [result, setResult] = useState(null);
   const [resultMsg, setResultMsg] = useState('');
   const [payout, setPayout] = useState(0);
+  const [canSplit, setCanSplit] = useState(false);
+  const [isSplit, setIsSplit] = useState(false);
+  const [activeSplitHand, setActiveSplitHand] = useState(0);
+  const [splitHand, setSplitHand] = useState([]);
 
   const mapStatus = (status) => {
     if (status === 'win' || status === 'blackjack') return 'win';
@@ -243,6 +247,11 @@ export default function BlackjackGame() {
     }
   };
 
+  const handleSplit = async () => {
+    if (gameState !== 'playing') return;
+    // Split functionality to be implemented
+  };
+
   const handleReset = () => {
     setGameState('idle');
     setPlayerHand([]);
@@ -251,6 +260,10 @@ export default function BlackjackGame() {
     setResult(null);
     setResultMsg('');
     setPayout(0);
+    setCanSplit(false);
+    setIsSplit(false);
+    setActiveSplitHand(0);
+    setSplitHand([]);
   };
 
   const halfBet = () => { if (betAmount) setBetAmount(Math.floor(Number(betAmount) / 2).toString()); };
