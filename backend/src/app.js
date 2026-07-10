@@ -35,6 +35,7 @@ import pumpRoutes from './modules/games/pump/pump.routes.js';
 import chickenRoutes from './modules/games/chicken/chicken.routes.js';
 import rpsRoutes from './modules/games/rps/rps.routes.js';
 import blackjackRoutes from './modules/games/blackjack/blackjack.routes.js';
+import historyRoutes from './modules/games/history.routes.js';
 
 // Admin routes
 import adminRoutes from './modules/admin/admin.routes.js';
@@ -170,6 +171,7 @@ export async function buildApp(opts = {}) {
   await app.register(chickenRoutes, { prefix: '/api/games/chicken' });
   await app.register(rpsRoutes, { prefix: '/api/games/rps' });
   await app.register(blackjackRoutes, { prefix: '/api/games/blackjack' });
+  await app.register(historyRoutes, { prefix: '/api/games' });
   
   // Admin Routes
   await app.register(adminRoutes, { prefix: '/api/admin' });

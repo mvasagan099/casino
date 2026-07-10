@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Trophy, User, Filter, ChevronDown, Activity } from 'lucide-react';
 import { useSocket } from './context/SocketContext';
 import { useAuth } from './context/AuthContext';
+import { api } from './api/client';
 import './slots.css';
 
 export default function LiveBetsTable() {
@@ -56,22 +57,32 @@ export default function LiveBetsTable() {
     if (!socket) return;
     
     const handleNewBet = (bet) => {
-      setLiveBets(prev => [bet, ...prev].slice(0, 20));
+      setLiveBets(prev => [bet, ...prev].slice(0, 8));
     };
     
     socket.on('bet:placed', handleNewBet);
     return () => socket.off('bet:placed', handleNewBet);
   }, [socket]);
 
+  useEffect(() => {
+    api.get('/games/history')
+      .then(res => {
+        if (res.data && res.data.success) {
+          setLiveBets(res.data.data);
+        }
+      })
+      .catch(console.error);
+  }, []);
+
   const getActiveData = () => {
     if (activeTab === 'My Bets') {
-      return user ? liveBets.filter(b => b.user === user.username).slice(0, 20) : [];
+      return user ? liveBets.filter(b => b.user === user.username).slice(0, 8) : [];
     }
     if (activeTab === 'All Bets') {
-      return liveBets.slice(0, 20);
+      return liveBets.slice(0, 8);
     }
     if (activeTab === 'High Rollers') {
-      return liveBets.filter(b => parseFloat(b.amount) >= 100).slice(0, 20);
+      return liveBets.filter(b => parseFloat(b.amount) >= 100).slice(0, 8);
     }
     return [];
   };
@@ -94,7 +105,7 @@ export default function LiveBetsTable() {
         <div className="my-bets-controls">
           <button className="my-bets-control-btn"><Filter size={16} /></button>
           <button className="my-bets-control-btn" style={{ width: 'auto', gap: '8px', padding: '0 12px' }}>
-            10 <ChevronDown size={14} />
+            8 <ChevronDown size={14} />
           </button>
         </div>
       </div>
